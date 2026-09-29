@@ -14,8 +14,20 @@ const processCatalogBtn=document.querySelector("#processCatalogBtn");
 const exportCatalogBtn=document.querySelector("#exportCatalogBtn");
 const importStatus=document.querySelector("#importStatus");
 const importSummary=document.querySelector("#importSummary");
+const linkEditorCard=document.querySelector("#linkEditorCard");
+const linkGameTitle=document.querySelector("#linkGameTitle");
+const linkGameMeta=document.querySelector("#linkGameMeta");
+const linkEditorList=document.querySelector("#linkEditorList");
+const linkLabel=document.querySelector("#linkLabel");
+const linkUrl=document.querySelector("#linkUrl");
+const addLinkBtn=document.querySelector("#addLinkBtn");
+const saveLinksBtn=document.querySelector("#saveLinksBtn");
+const closeLinkEditorBtn=document.querySelector("#closeLinkEditorBtn");
+const linkEditorStatus=document.querySelector("#linkEditorStatus");
 let games=[];
 let processedCatalog=null;
+let editingGameId=null;
+let editingLinks=[];
 
 async function sha256(value){
   const bytes=new TextEncoder().encode(value);
@@ -30,13 +42,17 @@ function setView(ok){
 }
 function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function render(list){
-  adminGames.innerHTML=list.slice(0,150).map(g=>`<div class="game"><div><b>${esc(g.titulo)}</b><br><small>${esc(g.codigo||"Sem código")} · ${esc(g.categoria||"Jogos")}</small></div><small>v${esc(g.versao||"-")}</small></div>`).join("");
+  adminGames.innerHTML=list.slice(0,150).map(g=>`<div class="game"><div><b>${esc(g.titulo)}</b><br><small>${esc(g.codigo||"Sem código")} · ${esc(g.categoria||"Jogos")}</small></div><div class="game-actions"><small>v${esc(g.versao||"-")}</small><button class="game-link-btn" type="button" data-edit-links="${esc(g.id)}">GERENCIAR LINKS</button></div></div>`).join("");
 }
 async function loadCatalog(){
   try{
     const r=await fetch("data/catalogo.json",{cache:"no-store"});
     const d=await r.json();
     games=d.jogos||[];
+    try{
+      const drafts=JSON.parse(localStorage.getItem("pkgbrasil_link_drafts")||"{}");
+      games=games.map(g=>drafts[g.id]?{...g,links_oficiais:drafts[g.id]}:g);
+    }catch{}
     document.querySelector("#gameCount").textContent=games.length;
     render(games);
   }catch{document.querySelector("#gameCount").textContent="ERRO"}
@@ -144,5 +160,71 @@ function exportProcessedCatalog(){
 }
 processCatalogBtn.addEventListener("click",processUploadedCatalog);
 exportCatalogBtn.addEventListener("click",exportProcessedCatalog);
+
+function renderLinkEditor(){
+  linkEditorList.innerHTML=editingLinks.length?editingLinks.map((link,i)=>`
+    <div class="link-row">
+      <input data-link-label="${i}" value="${esc(link.label||"")}" placeholder="Nome do link">
+      <input data-link-url="${i}" value="${esc(link.url||"")}" placeholder="https://...">
+      <button class="link-remove" type="button" data-remove-link="${i}">REMOVER</button>
+    </div>`).join(""):'<div class="import-status">Nenhum link cadastrado para este jogo.</div>';
+}
+function openLinkEditor(id){
+  const game=games.find(g=>String(g.id)===String(id));
+  if(!game)return;
+  editingGameId=game.id;
+  editingLinks=(Array.isArray(game.links_oficiais)?game.links_oficiais:[]).map(x=>({...x}));
+  linkGameTitle.textContent=game.titulo;
+  linkGameMeta.textContent=(game.codigo||"Sem código")+" · "+(game.categoria||"Jogos");
+  renderLinkEditor();
+  linkEditorStatus.textContent="Adicione apenas links oficiais ou que você tenha autorização para distribuir.";
+  linkEditorCard.hidden=false;
+  linkEditorCard.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function validHttpUrl(value){
+  try{const u=new URL(value);return /^https?:$/.test(u.protocol)}catch{return false}
+}
+function syncLinkInputs(){
+  linkEditorList.querySelectorAll("[data-link-label]").forEach(input=>{const i=Number(input.dataset.linkLabel);if(editingLinks[i])editingLinks[i].label=input.value.trim()});
+  linkEditorList.querySelectorAll("[data-link-url]").forEach(input=>{const i=Number(input.dataset.linkUrl);if(editingLinks[i])editingLinks[i].url=input.value.trim()});
+}
+adminGames.addEventListener("click",e=>{
+  const btn=e.target.closest("[data-edit-links]");
+  if(btn)openLinkEditor(btn.dataset.editLinks);
+});
+linkEditorList.addEventListener("input",syncLinkInputs);
+linkEditorList.addEventListener("click",e=>{
+  const btn=e.target.closest("[data-remove-link]");
+  if(!btn)return;
+  syncLinkInputs();
+  editingLinks.splice(Number(btn.dataset.removeLink),1);
+  renderLinkEditor();
+});
+addLinkBtn.addEventListener("click",()=>{
+  const label=linkLabel.value.trim();
+  const url=linkUrl.value.trim();
+  if(!label||!validHttpUrl(url)){linkEditorStatus.textContent="Informe um nome e uma URL http/https válida.";return}
+  editingLinks.push({label,url});
+  linkLabel.value="";linkUrl.value="";
+  renderLinkEditor();
+  linkEditorStatus.textContent="Link adicionado ao rascunho. Clique em SALVAR NO RASCUNHO.";
+});
+saveLinksBtn.addEventListener("click",()=>{
+  if(editingGameId==null)return;
+  syncLinkInputs();
+  const cleaned=editingLinks.filter(x=>x.label&&validHttpUrl(x.url));
+  const game=games.find(g=>String(g.id)===String(editingGameId));
+  if(!game)return;
+  game.links_oficiais=cleaned;
+  const drafts={};
+  games.forEach(g=>{if(Array.isArray(g.links_oficiais)&&g.links_oficiais.length)drafts[g.id]=g.links_oficiais});
+  localStorage.setItem("pkgbrasil_link_drafts",JSON.stringify(drafts));
+  processedCatalog={jogos:games.map(g=>({...g}))};
+  exportCatalogBtn.disabled=false;
+  editingLinks=cleaned.map(x=>({...x}));
+  renderLinkEditor();
+  linkEditorStatus.textContent="Links salvos neste navegador e incluídos no JSON tratado para exportação.";
+});
+closeLinkEditorBtn.addEventListener("click",()=>{linkEditorCard.hidden=true;editingGameId=null;editingLinks=[]});
 
 setView(loggedIn());
