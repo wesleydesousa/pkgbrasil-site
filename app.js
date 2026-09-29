@@ -1,65 +1,15 @@
-const games=[
-{title:"Watch Dogs 2 Gold Edition",code:"CUSA04294",platform:"PS4",lang:"PT-BR",tag:"Mundo aberto",desc:"Ação e aventura em mundo aberto com foco em hacking, exploração e missões pela região de São Francisco."},
-{title:"Watch Dogs: Legion",code:"CUSA13115",platform:"PS4",lang:"PT-BR",tag:"Ação",desc:"Aventura em mundo aberto ambientada em uma Londres futurista, com recrutamento de personagens e tecnologia no centro da experiência."},
-{title:"Bloodborne",code:"CUSA00900",platform:"PS4",lang:"PT-BR",tag:"RPG de ação",desc:"RPG de ação em uma cidade gótica tomada por criaturas e mistérios, conhecido pelo combate intenso e atmosfera sombria."}
-];
-
-const recentRail=document.querySelector("#recentRail");
-const dubRail=document.querySelector("#dubRail");
-const grid=document.querySelector("#gameGrid");
-const input=document.querySelector("#searchInput");
-const count=document.querySelector("#resultCount");
-const modal=document.querySelector("#gameModal");
-const modalContent=document.querySelector("#modalContent");
-
-const norm=s=>(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-
-function card(g){
-  return `<article class="card" tabindex="0" data-code="${g.code}">
-    <div class="poster"><span class="poster-code">${g.code}</span></div>
-    <div class="card-info">
-      <h3>${g.title}</h3>
-      <div class="chips"><span class="chip">${g.platform}</span><span class="chip">${g.lang}</span><span class="chip">${g.tag}</span></div>
-    </div>
-  </article>`;
-}
-
-function render(list=games){
-  recentRail.innerHTML=list.map(card).join("");
-  dubRail.innerHTML=list.filter(g=>g.lang==="PT-BR").map(card).join("");
-  grid.innerHTML=list.map(card).join("");
-  count.textContent=`${list.length} jogo${list.length===1?"":"s"}`;
-  document.querySelectorAll(".card").forEach(el=>{
-    const open=()=>showGame(games.find(g=>g.code===el.dataset.code));
-    el.addEventListener("click",open);
-    el.addEventListener("keydown",e=>{if(e.key==="Enter")open()});
-  });
-}
-
-function showGame(g){
-  if(!g)return;
-  modalContent.innerHTML=`
-    <div class="modal-hero">
-      <span class="section-kicker">PKGBRASIL • ${g.platform}</span>
-      <h2>${g.title}</h2>
-      <div class="modal-meta"><span class="chip">${g.code}</span><span class="chip">${g.lang}</span><span class="chip">${g.tag}</span></div>
-    </div>
-    <div class="modal-body">
-      <h3>Sobre o jogo</h3>
-      <p>${g.desc}</p>
-      <div class="notice">Esta primeira versão do catálogo usa apenas metadados. Links serão adicionados quando apontarem para fontes oficiais ou autorizadas.</div>
-    </div>`;
-  modal.showModal();
-}
-
-input.addEventListener("input",()=>{
-  const q=norm(input.value.trim());
-  render(games.filter(g=>norm(`${g.title} ${g.code} ${g.platform} ${g.tag}`).includes(q)));
-});
-document.querySelector("#modalClose").addEventListener("click",()=>modal.close());
-modal.addEventListener("click",e=>{if(e.target===modal)modal.close()});
-window.addEventListener("scroll",()=>document.querySelector("#nav").classList.toggle("scrolled",scrollY>20));
-document.querySelector("#searchToggle").addEventListener("click",()=>{document.querySelector("#catalogo").scrollIntoView();setTimeout(()=>input.focus(),350)});
-document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==input){e.preventDefault();input.focus()}});
-document.querySelector("#heroInfo").addEventListener("click",()=>showGame(games[2]));
-render();
+const state={games:[],filtered:[],visible:25,query:"",category:"",filter:""};
+const els={search:document.querySelector("#globalSearch"),latest:document.querySelector("#latestGames"),featured:document.querySelector("#featuredGames"),grid:document.querySelector("#catalogGrid"),status:document.querySelector("#catalogStatus"),category:document.querySelector("#categoryFilter"),dub:document.querySelector("#dubFilter"),more:document.querySelector("#loadMore"),modal:document.querySelector("#gameModal"),modalContent:document.querySelector("#modalContent")};
+const featuredCodes=["CUSA34384","CUSA33387","CUSA03041","CUSA07820","CUSA28561","CUSA00900","CUSA16596","CUSA11456","CUSA02299","CUSA05725","CUSA01764","CUSA24899"];
+const norm=(s="")=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const esc=(s="")=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const initials=(title="")=>title.split(/\s+/).filter(Boolean).slice(0,3).map(x=>x[0]).join("").toUpperCase();
+function card(g){const version=g.versao?`v${esc(g.versao)}`:"";return `<article class="game-card" tabindex="0" data-id="${esc(g.id)}"><div class="cover"><div class="cover-fallback">${esc(initials(g.titulo))}</div><img src="${esc(g.capa)}" alt="Capa de ${esc(g.titulo)}" loading="lazy" onerror="this.remove()"><span class="cover-badge">PS4</span></div><div class="game-info"><h3 class="game-title">${esc(g.titulo)}</h3><div class="game-meta"><span class="game-code">${esc(g.codigo||"Sem código")}</span><span>${version}</span></div><button class="mini-action" type="button" tabindex="-1">VER DETALHES</button></div></article>`;}
+function bindCards(root){root.querySelectorAll(".game-card").forEach(el=>{const open=()=>showGame(state.games.find(g=>g.id===el.dataset.id));el.addEventListener("click",open);el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open()}});});}
+function renderRows(){const latest=[...state.games].sort((a,b)=>Number(b.id)-Number(a.id)).slice(0,8);const featured=featuredCodes.map(code=>state.games.find(g=>g.codigo===code)).filter(Boolean).slice(0,8);els.latest.innerHTML=latest.map(card).join("");els.featured.innerHTML=(featured.length?featured:state.games.slice(0,8)).map(card).join("");bindCards(els.latest);bindCards(els.featured);}
+function applyFilters(reset=true){const q=norm(state.query.trim());state.filtered=state.games.filter(g=>{const hay=norm(`${g.titulo} ${g.codigo} ${g.categoria}`);return (!q||hay.includes(q))&&(!state.category||g.categoria===state.category)&&(!state.filter||g.dublado);});if(reset)state.visible=25;renderCatalog();}
+function renderCatalog(){const shown=state.filtered.slice(0,state.visible);els.grid.innerHTML=shown.map(card).join("");bindCards(els.grid);els.status.textContent=`${state.filtered.length} títulos encontrados`;els.more.hidden=state.visible>=state.filtered.length;}
+function showGame(g){if(!g)return;const packages=(g.arquivos||[]).filter(Boolean);els.modalContent.innerHTML=`<div class="modal-top"><span class="eyebrow">PKGBRASIL · PS4</span><h2>${esc(g.titulo)}</h2><div class="modal-chips"><span class="modal-chip">${esc(g.codigo||"Sem código")}</span><span class="modal-chip">${esc(g.categoria||"Jogos")}</span>${g.dublado?'<span class="modal-chip">Dublado PT-BR</span>':""}${g.dlc?'<span class="modal-chip">Conteúdo adicional</span>':""}</div></div><div class="modal-body"><div class="detail-grid"><div class="detail"><span>Plataforma</span><strong>PlayStation 4</strong></div><div class="detail"><span>Versão cadastrada</span><strong>${esc(g.versao||"Não informada")}</strong></div><div class="detail"><span>Código</span><strong>${esc(g.codigo||"Não informado")}</strong></div><div class="detail"><span>Categoria</span><strong>${esc(g.categoria||"Jogos")}</strong></div></div>${packages.length?`<ul class="package-list">${packages.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}<div class="modal-note">O catálogo utiliza os metadados do arquivo enviado. Links de distribuição são publicados somente quando houver uma fonte oficial ou autorização de distribuição.</div></div>`;els.modal.showModal();}
+function fillCategories(){[...new Set(state.games.map(g=>g.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR")).forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;els.category.appendChild(o);});}
+async function init(){try{const res=await fetch("data/catalogo.json",{cache:"no-store"});if(!res.ok)throw new Error("Falha ao carregar catálogo");const data=await res.json();state.games=data.jogos||[];state.filtered=[...state.games];fillCategories();renderRows();renderCatalog();}catch(err){els.status.textContent="Não foi possível carregar o catálogo.";console.error(err);}}
+els.search.addEventListener("input",()=>{state.query=els.search.value;applyFilters()});els.category.addEventListener("change",()=>{state.category=els.category.value;applyFilters()});els.dub.addEventListener("change",()=>{state.filter=els.dub.value;applyFilters()});els.more.addEventListener("click",()=>{state.visible+=25;renderCatalog()});document.querySelector("#modalClose").addEventListener("click",()=>els.modal.close());els.modal.addEventListener("click",e=>{if(e.target===els.modal)els.modal.close()});document.querySelector("#heroDetails").addEventListener("click",()=>{const gow=state.games.find(g=>g.codigo==="CUSA34384")||state.games[0];showGame(gow);});document.querySelectorAll("[data-show-all]").forEach(b=>b.addEventListener("click",()=>document.querySelector(".catalog-section").scrollIntoView({behavior:"smooth"})));init();
