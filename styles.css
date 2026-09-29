@@ -916,3 +916,86 @@ footer strong{color:#dbe0e9}
   .hero.hero-new-banner .hero-art.channel-cover{background-position:center center!important}
   .hero-catalog-hotspot{left:4%;bottom:6%;width:29%;height:14%;min-width:110px;min-height:32px}
 }
+
+
+/* ===== Clean proportional banner fix ===== */
+.hero.hero-new-banner{
+  position:relative!important;
+  width:calc(100% - 64px)!important;
+  max-width:1680px!important;
+  height:auto!important;
+  min-height:0!important;
+  aspect-ratio:auto!important;
+  margin:18px auto 0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border-radius:18px!important;
+  border:1px solid rgba(255,212,0,.28)!important;
+  background:#050505!important;
+  box-shadow:0 22px 60px rgba(0,0,0,.38)!important;
+}
+.hero.hero-new-banner:before,
+.hero.hero-new-banner:after,
+.hero.hero-new-banner .hero-overlay,
+.hero.hero-new-banner .hero-art,
+.hero.hero-new-banner .hero-content,
+.hero.hero-new-banner .slider-dots{
+  display:none!important;
+}
+.hero-banner-image{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  object-position:center;
+  filter:none!important;
+  transform-origin:center center;
+  animation:pkgBannerCleanMotion 9s ease-in-out infinite alternate;
+  will-change:transform;
+}
+@keyframes pkgBannerCleanMotion{
+  from{transform:scale(1)}
+  to{transform:scale(1.012)}
+}
+.hero-catalog-hotspot{
+  position:absolute;
+  z-index:5;
+  left:5.1%!important;
+  bottom:11.5%!important;
+  width:20.5%!important;
+  height:10.5%!important;
+  min-width:0!important;
+  min-height:0!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  cursor:pointer;
+  transition:box-shadow .22s ease,transform .22s ease,background .22s ease;
+}
+.hero-catalog-hotspot:hover{
+  transform:scale(1.025);
+  background:rgba(255,212,0,.045)!important;
+  box-shadow:0 0 0 2px rgba(255,220,64,.78),0 0 26px rgba(255,212,0,.36),0 0 52px rgba(255,212,0,.14)!important;
+}
+.hero-catalog-hotspot:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 3px #fff,0 0 0 6px #ffd400!important;
+}
+@media(max-width:900px){
+  .hero.hero-new-banner{
+    width:calc(100% - 28px)!important;
+    margin-top:12px!important;
+    border-radius:14px!important;
+  }
+}
+@media(max-width:620px){
+  .hero.hero-new-banner{
+    width:calc(100% - 18px)!important;
+    border-radius:11px!important;
+  }
+  .hero-banner-image{animation-duration:11s}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-banner-image{animation:none!important}
+}
