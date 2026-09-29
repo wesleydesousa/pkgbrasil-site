@@ -12,3 +12,109 @@ document.querySelector("#subscribeBtn").addEventListener("click",()=>openAuth("r
 
 /* Animate content according to scroll direction */
 (()=>{const targets=[...document.querySelectorAll(".platform-strip,.section,.sidebar .side-card,.promo-card,.membership,footer")];if(!targets.length)return;targets.forEach(el=>el.classList.add("scroll-reveal"));let lastY=window.scrollY,dir="down";const io=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.remove("from-up","from-down");entry.target.classList.add(dir==="down"?"from-down":"from-up");requestAnimationFrame(()=>requestAnimationFrame(()=>entry.target.classList.add("is-visible")))}else{entry.target.classList.remove("is-visible","from-up","from-down")}})},{threshold:.08,rootMargin:"0px 0px -4% 0px"});targets.forEach(el=>io.observe(el));window.addEventListener("scroll",()=>{const y=window.scrollY;if(Math.abs(y-lastY)>3){dir=y>lastY?"down":"up";lastY=y}},{passive:true})})();
+
+
+/* ===== PKGBRASIL GAMER INTERACTIONS v2 ===== */
+(()=>{
+  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Scroll progress HUD
+  let progress=document.querySelector("#scrollProgress");
+  if(!progress){
+    progress=document.createElement("div");
+    progress.id="scrollProgress";
+    progress.setAttribute("aria-hidden","true");
+    document.body.prepend(progress);
+  }
+  const updateProgress=()=>{
+    const max=document.documentElement.scrollHeight-innerHeight;
+    progress.style.width=(max>0?Math.min(100,(scrollY/max)*100):0)+"%";
+  };
+  addEventListener("scroll",updateProgress,{passive:true});
+  addEventListener("resize",updateProgress,{passive:true});
+  updateProgress();
+
+  if(!reduced){
+    // Ambient spotlight follows the pointer
+    addEventListener("pointermove",e=>{
+      document.documentElement.style.setProperty("--g-mx",e.clientX+"px");
+      document.documentElement.style.setProperty("--g-my",e.clientY+"px");
+    },{passive:true});
+
+    // 3D card tilt, works with dynamically rendered catalog cards
+    document.addEventListener("pointermove",e=>{
+      const card=e.target.closest(".game-card");
+      if(!card || matchMedia("(max-width: 900px)").matches)return;
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width;
+      const y=(e.clientY-r.top)/r.height;
+      card.style.setProperty("--ry",((x-.5)*10).toFixed(2)+"deg");
+      card.style.setProperty("--rx",((.5-y)*8).toFixed(2)+"deg");
+      card.style.setProperty("--px",(x*100).toFixed(1)+"%");
+      card.style.setProperty("--py",(y*100).toFixed(1)+"%");
+    },{passive:true});
+    document.addEventListener("pointerout",e=>{
+      const card=e.target.closest(".game-card");
+      if(card && !card.contains(e.relatedTarget)){
+        card.style.setProperty("--rx","0deg");
+        card.style.setProperty("--ry","0deg");
+      }
+    });
+
+    // Button ripple
+    document.addEventListener("pointerdown",e=>{
+      const el=e.target.closest(".btn,.account-btn,.mini-action,.load-more");
+      if(!el)return;
+      const r=el.getBoundingClientRect();
+      const s=document.createElement("span");
+      s.className="ripple";
+      const size=Math.max(r.width,r.height)*.42;
+      s.style.width=s.style.height=size+"px";
+      s.style.left=(e.clientX-r.left)+"px";
+      s.style.top=(e.clientY-r.top)+"px";
+      el.appendChild(s);
+      setTimeout(()=>s.remove(),620);
+    });
+  }
+
+  // Stagger reveal for game cards, including cards added by "mostrar mais"
+  const cardObserver=new IntersectionObserver(entries=>{
+    for(const entry of entries){
+      if(entry.isIntersecting){
+        entry.target.classList.add("gamer-visible");
+        cardObserver.unobserve(entry.target);
+      }
+    }
+  },{threshold:.08,rootMargin:"40px 0px -20px"});
+  const armCards=(root=document)=>{
+    const cards=[...root.querySelectorAll(".game-card:not([data-gamer-armed])")];
+    cards.forEach((card,i)=>{
+      card.dataset.gamerArmed="1";
+      card.classList.add("gamer-reveal-card");
+      card.style.setProperty("--delay",Math.min(i%10,9)*38+"ms");
+      cardObserver.observe(card);
+    });
+  };
+  armCards();
+  const mutationObserver=new MutationObserver(records=>{
+    for(const record of records){
+      for(const node of record.addedNodes){
+        if(node.nodeType===1){
+          if(node.matches?.(".game-card")) armCards(node.parentElement||document);
+          else if(node.querySelector?.(".game-card")) armCards(node);
+        }
+      }
+    }
+  });
+  mutationObserver.observe(document.body,{childList:true,subtree:true});
+
+  // Tiny click-energy feedback across gamer UI
+  document.addEventListener("click",e=>{
+    const target=e.target.closest(".platform,.side-card,.game-card,.membership-card");
+    if(!target)return;
+    target.classList.remove("gamer-click-flash");
+    void target.offsetWidth;
+    target.classList.add("gamer-click-flash");
+    setTimeout(()=>target.classList.remove("gamer-click-flash"),260);
+  });
+})();
