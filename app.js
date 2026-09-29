@@ -1,52 +1,94 @@
 const state={games:[],filtered:[],visible:25,query:"",category:"",filter:""};const els={search:document.querySelector("#globalSearch"),latest:document.querySelector("#latestGames"),featured:document.querySelector("#featuredGames"),grid:document.querySelector("#catalogGrid"),status:document.querySelector("#catalogStatus"),category:document.querySelector("#categoryFilter"),dub:document.querySelector("#dubFilter"),more:document.querySelector("#loadMore"),modal:document.querySelector("#gameModal"),modalContent:document.querySelector("#modalContent")};const featuredCodes=["CUSA34384","CUSA33387","CUSA03041","CUSA07820","CUSA28561","CUSA00900","CUSA16596","CUSA11456","CUSA02299","CUSA05725","CUSA01764","CUSA24899"];const norm=(s="")=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();const esc=(s="")=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));const initials=(t="")=>t.split(/\s+/).filter(Boolean).slice(0,3).map(x=>x[0]).join("").toUpperCase();function card(g){const v=g.versao?`v${esc(g.versao)}`:"";return `<article class="game-card" title="${esc(g.titulo)}" tabindex="0" data-id="${esc(g.id)}"><div class="cover"><div class="cover-fallback">${esc(initials(g.titulo))}</div><img data-wiki-title="${esc(g.titulo)}" alt="Imagem de ${esc(g.titulo)}" loading="lazy"><span class="cover-badge">PS4</span></div><div class="game-info"><h3 class="game-title">${esc(g.titulo)}</h3><div class="game-meta"><span class="game-code">${esc(g.codigo||"Sem código")}</span><span>${v}</span></div><button class="mini-action" type="button" tabindex="-1">ABRIR JOGO</button></div></article>`}function bindCards(r){r.querySelectorAll(".game-card").forEach(el=>{const open=()=>showGame(state.games.find(g=>g.id===el.dataset.id));el.addEventListener("click",open);el.addEventListener("keydown",e=>{if(e.key==="Enter"){open()}})})}const wikiCache=new Map();
 const wikiObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;wikiObserver.unobserve(entry.target);loadWikiImage(entry.target)})},{rootMargin:"320px 0px",threshold:.01});
-function wikiTitle(t=""){return t.replace(/\b(PS4|PKG|PT[- ]?BR|DUBLADO|DUBLADA)\b/gi,"").replace(/\((?:[^)]*DLC[^)]*|[^)]*MOD[^)]*)\)/gi,"").replace(/\s{2,}/g," ").trim()}
-async function fetchCommonsImage(title){
-  const key=wikiTitle(title);
+
+function cleanGameTitle(t=""){
+  return t
+    .replace(/\([^)]*(?:DLC|MOD|DUBLAD)[^)]*\)/gi,"")
+    .replace(/\b(?:PS4|PKG|PT[- ]?BR|DUBLADO|DUBLADA)\b/gi,"")
+    .replace(/\b(?:DELUXE|ULTIMATE|GOLD|PREMIUM|COMPLETE|DIGITAL DELUXE|LEGENDARY|SPECIAL) EDITION\b/gi,"")
+    .replace(/\b(?:DIRECTOR'?S CUT|VERSÃO DO DIRETOR|REMASTERED)\b/gi,"")
+    .replace(/\s{2,}/g," ")
+    .replace(/\s+[:\-]\s*$/,"")
+    .trim();
+}
+function titleTokens(t=""){
+  const stop=new Set(["the","of","and","edition","ps4","game","video","versao","director","complete","deluxe","ultimate","gold"]);
+  return norm(t).replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(x=>x.length>1&&!stop.has(x));
+}
+function candidateScore(gameTitle,pageTitle){
+  const a=titleTokens(cleanGameTitle(gameTitle));
+  const b=titleTokens(pageTitle.replace(/\([^)]*\)/g,""));
+  if(!a.length||!b.length)return 0;
+  const aset=new Set(a), bset=new Set(b);
+  const common=[...aset].filter(x=>bset.has(x)).length;
+  const coverage=common/aset.size;
+  const precision=common/bset.size;
+  let score=coverage*.72+precision*.28;
+  const ga=norm(cleanGameTitle(gameTitle)).replace(/[^a-z0-9]/g,"");
+  const pb=norm(pageTitle.replace(/\([^)]*\)/g,"")).replace(/[^a-z0-9]/g,"");
+  if(ga===pb)score+=.45;
+  else if(ga.includes(pb)||pb.includes(ga))score+=.18;
+  return score;
+}
+async function fetchWikipediaImage(title){
+  const key=cleanGameTitle(title);
   if(wikiCache.has(key))return wikiCache.get(key);
   try{
-    const saved=localStorage.getItem("pkgwiki:"+key);
+    const saved=localStorage.getItem("pkgwiki:v2:"+key);
     if(saved){const parsed=JSON.parse(saved);wikiCache.set(key,parsed);return parsed}
   }catch{}
-  const search=key+" video game";
-  const url="https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=8&gsrsearch="+encodeURIComponent(search)+"&prop=imageinfo&iiprop=url%7Cmime&iiurlwidth=500&format=json&origin=*";
-  try{
-    const r=await fetch(url,{mode:"cors",credentials:"omit"});
-    if(!r.ok)throw new Error("commons");
-    const d=await r.json();
-    const pages=Object.values(d?.query?.pages||{});
-    const bad=/\b(logo|icon|map|flag|cosplay|screenshot|gameplay|controller|console|fanart|fan art)\b/i;
-    const tokens=norm(key).split(/\s+/).filter(x=>x.length>2);
-    const scored=pages.map(p=>{
-      const info=p.imageinfo?.[0];
-      if(!info?.thumburl||!/^image\/(jpeg|png|webp)/i.test(info.mime||""))return null;
-      const name=norm(p.title||"");
-      let score=tokens.reduce((n,t)=>n+(name.includes(t)?2:0),0);
-      if(bad.test(p.title||""))score-=5;
-      return {score,url:info.thumburl,source:info.descriptionurl||info.url||"https://commons.wikimedia.org/",title:p.title};
-    }).filter(Boolean).sort((a,b)=>b.score-a.score);
-    const best=scored[0]&&scored[0].score>0?scored[0]:null;
-    wikiCache.set(key,best);
-    try{localStorage.setItem("pkgwiki:"+key,JSON.stringify(best))}catch{}
-    return best;
-  }catch(e){wikiCache.set(key,null);return null}
+  const langs=["pt","en"];
+  for(const lang of langs){
+    const query=`"${key}" video game`;
+    const url=`https://${lang}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=6&prop=pageimages%7Cinfo&piprop=thumbnail&pithumbsize=500&inprop=url&format=json&origin=*`;
+    try{
+      const r=await fetch(url,{mode:"cors",credentials:"omit"});
+      if(!r.ok)continue;
+      const d=await r.json();
+      const pages=Object.values(d?.query?.pages||{});
+      const ranked=pages
+        .map(p=>({score:candidateScore(title,p.title||""),title:p.title,url:p.thumbnail?.source||"",source:p.fullurl||""}))
+        .filter(x=>x.url&&x.source)
+        .sort((a,b)=>b.score-a.score);
+      const best=ranked[0];
+      if(best&&best.score>=.72){
+        const found={url:best.url,source:best.source,title:best.title,lang};
+        wikiCache.set(key,found);
+        try{localStorage.setItem("pkgwiki:v2:"+key,JSON.stringify(found))}catch{}
+        return found;
+      }
+    }catch{}
+  }
+  wikiCache.set(key,null);
+  try{localStorage.setItem("pkgwiki:v2:"+key,"null")}catch{}
+  return null;
 }
 async function loadWikiImage(img){
   if(img.dataset.wikiLoaded)return;
   img.dataset.wikiLoaded="1";
-  const found=await fetchCommonsImage(img.dataset.wikiTitle||"");
+  const found=await fetchWikipediaImage(img.dataset.wikiTitle||"");
   if(!found)return;
   img.src=found.url;
   img.addEventListener("error",()=>img.remove(),{once:true});
   const cover=img.closest(".cover");
   if(cover&&!cover.querySelector(".cover-source")){
     const a=document.createElement("a");
-    a.className="cover-source";a.href=found.source;a.target="_blank";a.rel="noopener noreferrer";a.textContent="Wikimedia";
-    a.title="Fonte da imagem: Wikimedia Commons";a.addEventListener("click",e=>e.stopPropagation());
+    a.className="cover-source";
+    a.href=found.source;
+    a.target="_blank";
+    a.rel="noopener noreferrer";
+    a.textContent="Wikipedia";
+    a.title="Imagem associada ao artigo correspondente na Wikipedia";
+    a.addEventListener("click",e=>e.stopPropagation());
     cover.appendChild(a);
   }
 }
-function hydrateWikiImages(root=document){root.querySelectorAll("img[data-wiki-title]:not([data-wiki-armed])").forEach(img=>{img.dataset.wikiArmed="1";wikiObserver.observe(img)})}
+function hydrateWikiImages(root=document){
+  root.querySelectorAll("img[data-wiki-title]:not([data-wiki-armed])").forEach(img=>{
+    img.dataset.wikiArmed="1";
+    wikiObserver.observe(img);
+  });
+}
 function renderRows(){const latest=[...state.games].sort((a,b)=>Number(b.id)-Number(a.id)).slice(0,8);const feat=featuredCodes.map(c=>state.games.find(g=>g.codigo===c)).filter(Boolean).slice(0,8);els.latest.innerHTML=latest.map(card).join("");els.featured.innerHTML=(feat.length?feat:state.games.slice(0,8)).map(card).join("");bindCards(els.latest);bindCards(els.featured);hydrateWikiImages(els.latest);hydrateWikiImages(els.featured)}function applyFilters(reset=true){const q=norm(state.query.trim());state.filtered=state.games.filter(g=>(!q||norm(`${g.titulo} ${g.codigo} ${g.categoria}`).includes(q))&&(!state.category||g.categoria===state.category)&&(!state.filter||g.dublado));if(reset)state.visible=25;renderCatalog()}function renderCatalog(){const shown=state.filtered.slice(0,state.visible);els.grid.innerHTML=shown.map(card).join("");bindCards(els.grid);hydrateWikiImages(els.grid);els.status.textContent=`${state.filtered.length} títulos encontrados`;els.more.hidden=state.visible>=state.filtered.length}function showGame(g){if(!g)return;els.modalContent.innerHTML=`<div class="modal-top"><span class="eyebrow">PKGBRASIL · PS4</span><h2>${esc(g.titulo)}</h2><div class="modal-chips"><span class="modal-chip">${esc(g.codigo||"Sem código")}</span><span class="modal-chip">${esc(g.categoria||"Jogos")}</span>${g.dublado?'<span class="modal-chip">Dublado PT-BR</span>':""}${g.dlc?'<span class="modal-chip">Conteúdo adicional</span>':""}</div></div><div class="modal-body"><div class="detail-grid"><div class="detail"><span>Plataforma</span><strong>PlayStation 4</strong></div><div class="detail"><span>Versão</span><strong>${esc(g.versao||"Não informada")}</strong></div><div class="detail"><span>Código</span><strong>${esc(g.codigo||"Não informado")}</strong></div><div class="detail"><span>Categoria</span><strong>${esc(g.categoria||"Jogos")}</strong></div></div><div class="modal-note">O catálogo utiliza os metadados do arquivo enviado. Links são publicados somente quando houver uma fonte oficial ou autorização de distribuição.</div></div>`;els.modal.showModal()}function fillCategories(){[...new Set(state.games.map(g=>g.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR")).forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;els.category.appendChild(o)})}async function init(){try{const r=await fetch("data/catalogo.json",{cache:"no-store"});const d=await r.json();state.games=d.jogos||[];state.filtered=[...state.games];fillCategories();renderRows();renderCatalog()}catch(e){els.status.textContent="Não foi possível carregar o catálogo."}}els.search.addEventListener("input",()=>{state.query=els.search.value;applyFilters()});els.category.addEventListener("change",()=>{state.category=els.category.value;applyFilters()});els.dub.addEventListener("change",()=>{state.filter=els.dub.value;applyFilters()});els.more.addEventListener("click",()=>{state.visible+=25;renderCatalog()});document.querySelector("#modalClose").addEventListener("click",()=>els.modal.close());els.modal.addEventListener("click",e=>{if(e.target===els.modal)els.modal.close()});const heroDetails=document.querySelector("#heroDetails");if(heroDetails)heroDetails.addEventListener("click",()=>showGame(state.games.find(g=>g.codigo==="CUSA34384")||state.games[0]));document.querySelectorAll("[data-show-all]").forEach(b=>b.addEventListener("click",()=>document.querySelector(".catalog-section").scrollIntoView({behavior:"smooth"})));init();
 // Atalhos de navegação do catálogo
 window.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==els.search){e.preventDefault();els.search.focus()}if(e.key==="Escape"&&els.modal.open)els.modal.close()});
