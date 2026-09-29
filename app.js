@@ -34,35 +34,96 @@ async function fetchWikipediaImage(title){
   const key=cleanGameTitle(title);
   if(wikiCache.has(key))return wikiCache.get(key);
   try{
-    const saved=localStorage.getItem("pkgwiki:v2:"+key);
+    const saved=localStorage.getItem("pkgwiki:v3:"+key);
     if(saved){const parsed=JSON.parse(saved);wikiCache.set(key,parsed);return parsed}
   }catch{}
+
   const langs=["pt","en"];
+  const acceptableDescription=d=>/jogo|video game|videogame|electronic game|role-playing game|action-adventure|fighting game|platform game|survival horror|racing game|sports game/i.test(d||"");
+
+  // Pass 1: normal Wikipedia search + PageImages.
   for(const lang of langs){
     const query=`"${key}" video game`;
-    const url=`https://${lang}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=6&prop=pageimages%7Cinfo&piprop=thumbnail&pithumbsize=500&inprop=url&format=json&origin=*`;
+    const url=`https://${lang}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=8&prop=pageimages%7Cinfo%7Cpageterms&piprop=thumbnail&pithumbsize=600&wbptterms=description&inprop=url&format=json&origin=*`;
     try{
       const r=await fetch(url,{mode:"cors",credentials:"omit"});
       if(!r.ok)continue;
       const d=await r.json();
       const pages=Object.values(d?.query?.pages||{});
-      const ranked=pages
-        .map(p=>({score:candidateScore(title,p.title||""),title:p.title,url:p.thumbnail?.source||"",source:p.fullurl||""}))
-        .filter(x=>x.url&&x.source)
-        .sort((a,b)=>b.score-a.score);
+      const ranked=pages.map(p=>{
+        const desc=p.terms?.description?.[0]||"";
+        let score=candidateScore(title,p.title||"");
+        if(acceptableDescription(desc))score+=.15;
+        return {score,title:p.title,url:p.thumbnail?.source||"",source:p.fullurl||"",desc};
+      }).filter(x=>x.url&&x.source).sort((a,b)=>b.score-a.score);
       const best=ranked[0];
       if(best&&best.score>=.72){
         const found={url:best.url,source:best.source,title:best.title,lang};
         wikiCache.set(key,found);
-        try{localStorage.setItem("pkgwiki:v2:"+key,JSON.stringify(found))}catch{}
+        try{localStorage.setItem("pkgwiki:v3:"+key,JSON.stringify(found))}catch{}
         return found;
       }
     }catch{}
   }
+
+  // Pass 2: broader REST search, but only accept results clearly identified as video games.
+  for(const lang of langs){
+    try{
+      const u=`https://${lang}.wikipedia.org/w/rest.php/v1/search/page?q=${encodeURIComponent(key)}&limit=10`;
+      const r=await fetch(u,{mode:"cors",credentials:"omit"});
+      if(!r.ok)continue;
+      const d=await r.json();
+      const ranked=(d.pages||[]).map(p=>{
+        let score=candidateScore(title,p.title||"");
+        if(acceptableDescription(p.description))score+=.2;
+        return {score,title:p.title,url:p.thumbnail?.url?("https:"+p.thumbnail.url):"",source:`https://${lang}.wikipedia.org/wiki/${encodeURIComponent((p.key||p.title||"").replace(/ /g,"_"))}`,desc:p.description||""};
+      }).filter(x=>x.url&&acceptableDescription(x.desc)).sort((a,b)=>b.score-a.score);
+      const best=ranked[0];
+      if(best&&best.score>=.68){
+        const found={url:best.url,source:best.source,title:best.title,lang};
+        wikiCache.set(key,found);
+        try{localStorage.setItem("pkgwiki:v3:"+key,JSON.stringify(found))}catch{}
+        return found;
+      }
+    }catch{}
+  }
+
+  // Pass 3: strict Wikimedia Commons fallback for games still without artwork.
+  try{
+    const tokens=titleTokens(key);
+    const q=`"${key}" game cover`;
+    const u="https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=12&gsrsearch="+encodeURIComponent(q)+"&prop=imageinfo&iiprop=url%7Cmime%7Cextmetadata&iiurlwidth=600&format=json&origin=*";
+    const r=await fetch(u,{mode:"cors",credentials:"omit"});
+    if(r.ok){
+      const d=await r.json();
+      const bad=/\b(logo|icon|map|flag|cosplay|screenshot|gameplay|controller|console|fanart|fan art|meme)\b/i;
+      const ranked=Object.values(d?.query?.pages||{}).map(p=>{
+        const info=p.imageinfo?.[0];
+        if(!info?.thumburl||!/^image\/(jpeg|png|webp)/i.test(info.mime||""))return null;
+        const name=(p.title||"").replace(/^File:/i,"");
+        const nt=titleTokens(name);
+        const common=tokens.filter(t=>nt.includes(t)).length;
+        const coverage=tokens.length?common/tokens.length:0;
+        let score=coverage;
+        if(/cover|box|artwork|poster/i.test(name))score+=.18;
+        if(bad.test(name))score-=.4;
+        return {score,url:info.thumburl,source:info.descriptionurl||info.url||"https://commons.wikimedia.org/",title:p.title};
+      }).filter(Boolean).sort((a,b)=>b.score-a.score);
+      const best=ranked[0];
+      if(best&&best.score>=.88){
+        const found={url:best.url,source:best.source,title:best.title,lang:"commons"};
+        wikiCache.set(key,found);
+        try{localStorage.setItem("pkgwiki:v3:"+key,JSON.stringify(found))}catch{}
+        return found;
+      }
+    }
+  }catch{}
+
   wikiCache.set(key,null);
-  try{localStorage.setItem("pkgwiki:v2:"+key,"null")}catch{}
+  try{localStorage.setItem("pkgwiki:v3:"+key,"null")}catch{}
   return null;
 }
+
 async function loadWikiImage(img){
   if(img.dataset.wikiLoaded)return;
   img.dataset.wikiLoaded="1";
