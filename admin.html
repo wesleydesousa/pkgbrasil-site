@@ -20,7 +20,7 @@
     .logout{border:1px solid #ffd40055;background:#ffd4000a;color:var(--yellow);padding:10px 14px;border-radius:9px;font-weight:900;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
     .card{border:1px solid var(--line);background:linear-gradient(145deg,var(--panel),var(--panel2));border-radius:14px;padding:20px;box-shadow:0 18px 44px #0005}.card span{color:var(--muted);font-size:10px;font-weight:800}.card strong{display:block;font-size:28px;margin-top:10px}.card p{color:var(--muted);font-size:12px;line-height:1.6}
     .catalog-box{margin-top:18px}.toolbar{display:flex;gap:10px;margin-bottom:14px}.toolbar input{flex:1;border:1px solid var(--line);background:#08101a;color:#fff;border-radius:9px;padding:12px;outline:none}.toolbar input:focus{border-color:var(--yellow)}
-    .games{display:grid;gap:8px;max-height:58vh;overflow:auto}.game{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:12px 14px;border:1px solid #1c293b;border-radius:10px;background:#080d14}.game b{font-size:12px}.game small{color:var(--muted)}
+    .games{display:grid;gap:8px;max-height:58vh;overflow:auto}.import-toolbar{align-items:center;flex-wrap:wrap}.import-toolbar input[type=file]{flex:1;min-width:260px;border:1px dashed #33435d;background:#08101a;color:#cfd7e4;border-radius:9px;padding:10px}.import-status{margin:12px 0;color:#ffda55;font-size:11px}.import-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.import-pill{padding:12px;border:1px solid #1e2a3d;border-radius:10px;background:#080d14}.import-pill b{display:block;font-size:20px;color:var(--yellow)}.import-pill small{color:var(--muted)}.game{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:12px 14px;border:1px solid #1c293b;border-radius:10px;background:#080d14}.game b{font-size:12px}.game small{color:var(--muted)}
     .login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px}.login-card{width:min(430px,100%);padding:28px;border:1px solid #2b3749;border-radius:16px;background:#090f17;box-shadow:0 30px 80px #0009}.login-card img{width:72px;height:72px;object-fit:cover;border-radius:14px}.login-card h1{margin:18px 0 6px}.login-card p{color:var(--muted);font-size:12px;line-height:1.6}
     .login-card label{display:grid;gap:7px;margin-top:14px;font-size:11px;font-weight:800}.login-card input{border:1px solid #2b3749;background:#0b121d;color:#fff;border-radius:9px;padding:12px;outline:none}.login-card input:focus{border-color:var(--yellow)}.primary{width:100%;margin-top:18px;border:0;border-radius:9px;padding:12px;background:linear-gradient(135deg,#e7b800,var(--yellow));font-weight:900;cursor:pointer}.msg{min-height:18px;margin-top:12px;color:#ffda55;font-size:11px}
     [hidden]{display:none!important}@media(max-width:850px){.admin-shell{grid-template-columns:1fr}.sidebar{height:auto;position:relative;border-right:0;border-bottom:1px solid var(--line)}.sidebar-note{display:none}.grid{grid-template-columns:1fr}.nav{grid-template-columns:repeat(2,1fr)}main{padding:20px}}
@@ -53,12 +53,23 @@
         <article class="card"><span>BACKEND</span><strong>PENDENTE</strong><p>Pronto para migrar posteriormente para autenticação real.</p></article>
       </div>
       <article class="card catalog-box">
+        <span>IMPORTAR CATÁLOGO JSON</span>
+        <p>Envie um arquivo .json para associar metadados e links oficiais/autorizados aos jogos já cadastrados. Como o site está no GitHub Pages, esta etapa prepara e exporta o JSON tratado; a publicação permanente ainda depende de substituir o arquivo do repositório ou conectar um backend.</p>
+        <div class="toolbar import-toolbar">
+          <input id="catalogFile" type="file" accept=".json,application/json">
+          <button class="logout" id="processCatalogBtn" type="button">PROCESSAR JSON</button>
+          <button class="logout" id="exportCatalogBtn" type="button" disabled>EXPORTAR JSON TRATADO</button>
+        </div>
+        <div class="import-status" id="importStatus">Nenhum arquivo processado.</div>
+        <div class="import-summary" id="importSummary"></div>
+      </article>
+      <article class="card catalog-box">
         <span>VISUALIZAÇÃO DO CATÁLOGO</span>
         <div class="toolbar"><input id="adminSearch" type="search" placeholder="Buscar jogo ou código..."></div>
         <div class="games" id="adminGames"></div>
       </article>
     </main>
   </section>
-  <script src="admin.js?v=20260929-1"></script>
+  <script src="admin.js?v=20260929-2"></script>
 </body>
 </html>
