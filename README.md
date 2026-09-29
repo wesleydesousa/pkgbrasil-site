@@ -1,15 +1,19 @@
 # PKGBRASIL
 
-Catálogo gamer em desenvolvimento com visual inspirado em plataformas de streaming e identidade própria da PKGBRASIL.
+Catálogo gamer responsivo com identidade visual escura, azul e roxa baseada na arte aprovada.
 
-## Já disponível
-- Home com destaque principal
-- Fileiras horizontais de jogos
-- Busca por título e código CUSA
-- Modal com detalhes
-- Layout responsivo
-- Estrutura preparada para futura API e PKGBot
-- Deploy automático via GitHub Pages
+## Implementado
+- Home profissional em estilo storefront/streaming
+- Destaque principal
+- Busca por nome, código e categoria
+- Filtros de categoria e títulos dublados
+- 337 registros de jogos importados do catálogo
+- Modal de detalhes
+- Estrutura preparada para PKGBot, tutoriais, utilitários e solicitações
+- GitHub Pages
 
-## Conteúdo
-A base inicial utiliza metadados do catálogo. Links de distribuição devem apontar para fontes oficiais ou autorizadas.
+## Capas
+O arquivo de catálogo referencia capas no formato `fotos/<id>.jpg`. Como as imagens da pasta `fotos` não vieram junto com o JSON, o site mostra placeholders até esses arquivos serem adicionados ao repositório.
+
+## Links
+Links de distribuição de terceiros não são replicados no site. A estrutura pode receber links oficiais ou conteúdos com autorização de distribuição.
