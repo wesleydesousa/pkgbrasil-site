@@ -448,3 +448,33 @@ footer:before{
   .game-card{transform:none!important}
   .scroll-reveal{filter:none!important}
 }
+
+
+/* Layout refinement: proportional hero + clean footer */
+.hero{
+  height:clamp(320px,34vw,520px)!important;
+  min-height:320px!important;
+  aspect-ratio:auto!important;
+}
+.hero-art.channel-cover{
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  background-size:cover!important;
+  background-position:center center!important;
+  animation:pkgHeroBalanced 7s ease-in-out infinite alternate!important;
+}
+@keyframes pkgHeroBalanced{
+  from{transform:scale(1.01);filter:saturate(1.05) contrast(1.06)}
+  to{transform:scale(1.035);filter:saturate(1.08) contrast(1.08)}
+}
+footer:before{display:none!important;animation:none!important}
+@media(max-width:700px){
+  .hero{
+    height:clamp(260px,58vw,380px)!important;
+    min-height:260px!important;
+  }
+  .hero-art.channel-cover{
+    background-position:center center!important;
+  }
+}
