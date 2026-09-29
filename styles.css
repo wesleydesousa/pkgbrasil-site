@@ -41,3 +41,9 @@
 .scroll-reveal.from-up{transform:translateY(-34px)}
 .scroll-reveal.is-visible{opacity:1;transform:translateY(0)}
 @media(prefers-reduced-motion:reduce){.scroll-reveal,.scroll-reveal.from-down,.scroll-reveal.from-up{opacity:1;transform:none;transition:none}}
+
+/* New official logo and clean channel-cover hero */
+.brand.brand-image{display:flex;align-items:center;min-width:0;padding:0;background:none;border:0}
+.brand.brand-image img{display:block;width:auto;height:48px;max-width:220px;object-fit:contain}
+.hero .hero-content{display:none!important}
+@media(max-width:620px){.brand.brand-image img{height:40px;max-width:160px}}
