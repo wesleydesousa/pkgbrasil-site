@@ -25,3 +25,12 @@
 .brand-accent,.main-nav a.active:after,.section-bar,.hero-content:before{background:linear-gradient(90deg,#fff09a,#ffd400,#c99b00)}
 .platform.active{background:linear-gradient(135deg,#b98c00,#ffd400);color:#111}
 .side-icon,.promo-mark{background:radial-gradient(circle at 35% 25%,#fff09a,#ffd400 48%,#7a5c00)}
+
+/* Official PKGBRASIL channel cover */
+.hero{height:min(520px,38vw);min-height:360px;background:#050505}
+.hero-art.channel-cover{left:0;right:0;width:100%;height:100%;background-image:url("ativos/pkgbrasil-channel-cover.jpg");background-size:cover;background-position:center;filter:saturate(1.05) contrast(1.04);transform:scale(1.015);animation:pkgHeroDrift 12s ease-in-out infinite alternate}
+.hero-art.channel-cover:after{background:linear-gradient(90deg,#050505d9 0,#05050566 31%,transparent 62%),linear-gradient(0deg,#050505a8 0,transparent 48%)}
+.hero-overlay{background:linear-gradient(90deg,#050505d8 0,#05050573 28%,transparent 62%)}
+@keyframes pkgHeroDrift{from{transform:scale(1.015) translate3d(0,0,0)}to{transform:scale(1.055) translate3d(-.7%,0,0)}}
+@media(prefers-reduced-motion:reduce){.hero-art.channel-cover{animation:none;transform:none}}
+@media(max-width:620px){.hero{height:430px}.hero-art.channel-cover{background-position:center}.hero-overlay{background:linear-gradient(90deg,#050505e8,#05050572)}}
