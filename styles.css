@@ -34,3 +34,10 @@
 @keyframes pkgHeroDrift{from{transform:scale(1.015) translate3d(0,0,0)}to{transform:scale(1.055) translate3d(-.7%,0,0)}}
 @media(prefers-reduced-motion:reduce){.hero-art.channel-cover{animation:none;transform:none}}
 @media(max-width:620px){.hero{height:430px}.hero-art.channel-cover{background-position:center}.hero-overlay{background:linear-gradient(90deg,#050505e8,#05050572)}}
+
+/* Bidirectional scroll reveal */
+.scroll-reveal{opacity:0;will-change:transform,opacity;transition:opacity .58s ease,transform .58s cubic-bezier(.2,.75,.25,1)}
+.scroll-reveal.from-down{transform:translateY(34px)}
+.scroll-reveal.from-up{transform:translateY(-34px)}
+.scroll-reveal.is-visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.scroll-reveal,.scroll-reveal.from-down,.scroll-reveal.from-up{opacity:1;transform:none;transition:none}}
