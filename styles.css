@@ -1005,3 +1005,25 @@ footer strong{color:#dbe0e9}
 .cover img[data-wiki-title][src]{opacity:1}
 .cover-source{position:absolute;z-index:6;right:7px;bottom:7px;padding:3px 6px;border-radius:5px;background:rgba(4,8,14,.78);border:1px solid rgba(255,255,255,.18);color:#d9e2f1;font-size:7px;font-weight:800;letter-spacing:.03em;backdrop-filter:blur(5px)}
 .cover-source:hover{border-color:#ffd400;color:#ffd400}
+
+
+/* Promo card official PKGBRASIL logo */
+.promo-mark.promo-logo{
+  width:90px!important;
+  height:90px!important;
+  border-radius:14px!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  padding:0!important;
+}
+.promo-mark.promo-logo img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  display:block!important;
+  border-radius:12px;
+}
