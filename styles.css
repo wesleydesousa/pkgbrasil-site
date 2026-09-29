@@ -73,3 +73,378 @@ main>section,.platform-strip,.membership,footer{animation:pkgPageArrival .7s cub
 .scroll-reveal.from-up{transform:translateY(-58px) scale(.965)!important}
 .scroll-reveal.is-visible{transform:translateY(0) scale(1)!important}
 @media(prefers-reduced-motion:reduce){.hero-art.channel-cover,.hero:before,.hero:after{animation:none!important}.hero:before{display:none}}
+
+
+/* ===== PKGBRASIL GAMER MOTION SYSTEM v2 ===== */
+:root{
+  --g-yellow:#ffd400;
+  --g-yellow-soft:#fff2a0;
+  --g-black:#050505;
+  --g-mx:50%;
+  --g-my:15%;
+}
+body{
+  position:relative;
+  background:
+    radial-gradient(circle at var(--g-mx) var(--g-my),rgba(255,212,0,.10),transparent 18rem),
+    radial-gradient(circle at 78% 8%,#2a2207 0,transparent 28rem),
+    #05070d;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.20;
+  background-image:
+    linear-gradient(rgba(255,212,0,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,212,0,.08) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:linear-gradient(to bottom,black,transparent 82%);
+  animation:gamerGrid 15s linear infinite;
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:99;
+  pointer-events:none;
+  opacity:.14;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px);
+  mix-blend-mode:screen;
+}
+body>*{position:relative;z-index:1}
+@keyframes gamerGrid{to{background-position:46px 46px,46px 46px}}
+
+/* scroll progress HUD */
+#scrollProgress{
+  position:fixed;
+  z-index:9999;
+  top:0;left:0;
+  width:0;height:3px;
+  background:linear-gradient(90deg,#8f6900,#ffd400,#fff7bf,#ffd400);
+  box-shadow:0 0 10px #ffd400,0 0 24px rgba(255,212,0,.75);
+  transform-origin:left center;
+  transition:width .08s linear;
+}
+
+/* header */
+.topbar{
+  overflow:hidden;
+  border-bottom-color:#6e5700;
+  box-shadow:0 8px 40px #0009,0 1px 0 #ffd40066;
+}
+.topbar:after{
+  content:"";
+  position:absolute;
+  inset:auto -30% 0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#ffd400,#fff6b2,#ffd400,transparent);
+  animation:headerRail 3.2s linear infinite;
+}
+@keyframes headerRail{from{transform:translateX(-24%)}to{transform:translateX(24%)}}
+.brand.brand-image img{
+  filter:drop-shadow(0 0 0 transparent);
+  transition:transform .25s ease,filter .25s ease;
+}
+.brand.brand-image:hover img{
+  transform:scale(1.06) rotate(-1deg);
+  filter:drop-shadow(0 0 12px rgba(255,212,0,.55));
+}
+.main-nav a{overflow:hidden}
+.main-nav a:before{
+  content:"";
+  position:absolute;
+  left:50%;bottom:5px;
+  width:0;height:1px;
+  background:#ffd400;
+  box-shadow:0 0 12px #ffd400;
+  transition:.24s ease;
+}
+.main-nav a:hover:before{left:10%;width:80%}
+.search{
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.search:focus-within{
+  transform:translateY(-1px);
+  box-shadow:0 0 0 1px #ffd40055,0 0 26px #ffd40028;
+}
+
+/* buttons */
+.btn,.account-btn,.mini-action,.load-more,.link-button,.platform{
+  position:relative;
+  overflow:hidden;
+}
+.btn:before,.account-btn:before,.mini-action:before,.load-more:before{
+  content:"";
+  position:absolute;
+  top:-120%;left:-40%;
+  width:30%;height:340%;
+  transform:rotate(22deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+  transition:transform .55s ease;
+}
+.btn:hover:before,.account-btn:hover:before,.mini-action:hover:before,.load-more:hover:before{
+  transform:translateX(520%) rotate(22deg);
+}
+.btn:hover,.account-btn:hover,.load-more:hover{
+  transform:translateY(-2px) scale(1.02);
+}
+.btn:active,.account-btn:active,.mini-action:active,.load-more:active{transform:scale(.97)}
+.ripple{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  transform:translate(-50%,-50%) scale(0);
+  background:rgba(255,255,255,.55);
+  animation:gamerRipple .55s ease-out forwards;
+}
+@keyframes gamerRipple{to{transform:translate(-50%,-50%) scale(7);opacity:0}}
+
+/* hero impact layers */
+.hero{box-shadow:0 18px 60px #000b}
+.hero-art.channel-cover{
+  animation-duration:4.8s!important;
+  filter:saturate(1.08) contrast(1.10)!important;
+}
+.hero:before{
+  background:
+    linear-gradient(112deg,transparent 0 39%,rgba(255,212,0,.16) 44%,rgba(255,249,202,.52) 48%,rgba(255,212,0,.14) 52%,transparent 58%)!important;
+  animation-duration:3.4s!important;
+}
+.hero-overlay:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.30;
+  background:
+    linear-gradient(90deg,transparent 49.7%,rgba(255,212,0,.18) 50%,transparent 50.3%),
+    linear-gradient(0deg,transparent 49.7%,rgba(255,212,0,.10) 50%,transparent 50.3%);
+  background-size:180px 180px;
+  animation:targetGrid 9s linear infinite;
+  mix-blend-mode:screen;
+}
+@keyframes targetGrid{to{background-position:180px 90px,90px 180px}}
+
+/* platform HUD */
+.platform-strip{
+  position:relative;
+  box-shadow:0 14px 40px #0008;
+}
+.platform{
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),border-color .22s,box-shadow .22s,filter .22s;
+}
+.platform:not(:disabled):hover,.platform.active:hover{
+  transform:translateY(-5px) scale(1.035);
+  border-color:#ffd400;
+  box-shadow:0 10px 30px #000b,0 0 22px #ffd4002d;
+}
+.platform.active:after{
+  content:"";
+  position:absolute;
+  inset:-40% -80%;
+  background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.35) 50%,transparent 58%);
+  animation:platformSweep 2.8s linear infinite;
+}
+@keyframes platformSweep{to{transform:translateX(55%)}}
+
+/* headings */
+.section-heading h2,.catalog-header h2,.membership-copy h2{
+  text-shadow:0 0 0 transparent;
+  transition:text-shadow .25s ease,letter-spacing .25s ease;
+}
+.section:hover .section-heading h2{
+  letter-spacing:.015em;
+  text-shadow:0 0 18px rgba(255,212,0,.18);
+}
+.section-bar{
+  animation:barCharge 1.2s ease-in-out infinite alternate;
+}
+@keyframes barCharge{to{box-shadow:0 0 9px #ffd400,0 0 28px #ffd400aa}}
+
+/* cards: 3D tilt + animated frame */
+.game-card{
+  --rx:0deg;
+  --ry:0deg;
+  --lift:0px;
+  position:relative;
+  transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
+  transform-style:preserve-3d;
+  transition:transform .16s ease,border-color .2s ease,box-shadow .2s ease;
+  isolation:isolate;
+}
+.game-card:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  z-index:5;
+  pointer-events:none;
+  border-radius:8px;
+  padding:1px;
+  background:linear-gradient(135deg,transparent 20%,#ffd400 48%,transparent 72%);
+  background-size:220% 220%;
+  opacity:0;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  transition:opacity .2s ease;
+  animation:cardBorderFlow 2.6s linear infinite;
+}
+.game-card:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  opacity:0;
+  background:radial-gradient(circle at var(--px,50%) var(--py,30%),rgba(255,224,80,.18),transparent 34%);
+  transition:opacity .2s ease;
+}
+.game-card:hover{
+  --lift:-8px;
+  border-color:#ffd400!important;
+  box-shadow:0 20px 45px #000c,0 0 30px #ffd40024!important;
+}
+.game-card:hover:before,.game-card:hover:after{opacity:1}
+@keyframes cardBorderFlow{to{background-position:220% 220%}}
+.game-card .cover img{transition:transform .42s cubic-bezier(.2,.8,.2,1),filter .3s ease}
+.game-card:hover .cover img{transform:scale(1.06);filter:saturate(1.12) contrast(1.06)}
+.game-card .cover-badge{box-shadow:0 0 0 transparent;transition:.2s ease}
+.game-card:hover .cover-badge{box-shadow:0 0 16px #117beaaa}
+
+/* stagger reveal for dynamically rendered cards */
+.gamer-reveal-card{
+  opacity:0;
+  transform:translateY(38px) scale(.92);
+}
+.gamer-reveal-card.gamer-visible{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  transition:opacity .48s ease,transform .56s cubic-bezier(.16,.84,.28,1);
+  transition-delay:var(--delay,0ms);
+}
+
+/* sidebar */
+.side-card{
+  position:relative;
+  overflow:hidden;
+  transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;
+}
+.side-card:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,212,0,.08),transparent 70%);
+  transform:translateX(-120%);
+  transition:transform .5s ease;
+}
+.side-card:hover{
+  transform:translateX(7px) scale(1.015);
+  border-color:#ffd40088;
+  box-shadow:-5px 0 0 #ffd400,0 14px 32px #0008;
+}
+.side-card:hover:before{transform:translateX(120%)}
+.side-icon{animation:iconPulse 2.2s ease-in-out infinite alternate}
+@keyframes iconPulse{to{box-shadow:0 0 22px #ffd40055;transform:scale(1.04)}}
+.promo-card{
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 0 1px #ffd4001f,0 18px 40px #0007;
+}
+.promo-card:after{
+  content:"";
+  position:absolute;
+  inset:-60%;
+  background:conic-gradient(from 0deg,transparent,#ffd40024,transparent 22%);
+  animation:promoSpin 7s linear infinite;
+  pointer-events:none;
+}
+@keyframes promoSpin{to{transform:rotate(360deg)}}
+
+/* membership */
+.membership{
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 24px 70px #0009,0 0 36px #ffd4000f;
+}
+.membership:before{
+  content:"";
+  position:absolute;
+  width:320px;height:320px;
+  right:-120px;top:-140px;
+  border-radius:50%;
+  background:radial-gradient(circle,#ffd4002e,transparent 65%);
+  animation:membershipOrb 3.2s ease-in-out infinite alternate;
+}
+@keyframes membershipOrb{to{transform:translate(-55px,55px) scale(1.28);opacity:.65}}
+.membership-card{
+  position:relative;
+  overflow:hidden;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.membership-card:hover{
+  transform:translateY(-7px);
+  box-shadow:0 22px 54px #000b,0 0 36px #ffd40025;
+}
+.price b{
+  display:inline-block;
+  animation:priceGlow 1.4s ease-in-out infinite alternate;
+}
+@keyframes priceGlow{to{color:#fff1a0;text-shadow:0 0 16px #ffd400aa}}
+
+/* filters and dialogs */
+.filters select:hover{border-color:#ffd40088}
+dialog{
+  box-shadow:0 30px 100px #000,0 0 55px #ffd40018;
+  animation:dialogPop .24s cubic-bezier(.2,.85,.3,1);
+}
+@keyframes dialogPop{from{opacity:0;transform:scale(.94) translateY(18px)}to{opacity:1;transform:none}}
+.modal-close:hover{transform:rotate(90deg);border-color:#ffd400;color:#ffd400}
+
+/* footer */
+footer{
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(255,212,0,.035),transparent 28%),
+    #05070d;
+}
+footer:before{
+  content:"";
+  position:absolute;
+  left:-20%;top:0;
+  width:40%;height:1px;
+  background:linear-gradient(90deg,transparent,#ffd400,transparent);
+  box-shadow:0 0 12px #ffd400;
+  animation:footerScan 4s linear infinite;
+}
+@keyframes footerScan{to{left:100%}}
+
+/* active click flash */
+.gamer-click-flash{
+  animation:gamerClickFlash .22s ease-out;
+}
+@keyframes gamerClickFlash{50%{filter:brightness(1.28)}}
+
+/* make scroll reveals punchier */
+.scroll-reveal{
+  filter:blur(5px);
+  transition:opacity .44s ease,transform .5s cubic-bezier(.15,.8,.25,1),filter .45s ease!important;
+}
+.scroll-reveal.is-visible{filter:blur(0)}
+.scroll-reveal.from-down{transform:translateY(72px) scale(.94)!important}
+.scroll-reveal.from-up{transform:translateY(-72px) scale(.94)!important}
+
+/* responsive / accessibility */
+@media(max-width:900px){
+  body:before{opacity:.11;background-size:34px 34px}
+  .side-card:hover{transform:none}
+  .game-card{transform:none!important}
+  .hero-art.channel-cover{animation-duration:6s!important}
+}
+@media(prefers-reduced-motion:reduce){
+  body:before,.topbar:after,.platform.active:after,.section-bar,.side-icon,.promo-card:after,.membership:before,.price b,footer:before{animation:none!important}
+  .gamer-reveal-card{opacity:1;transform:none!important}
+  .game-card{transform:none!important}
+  .scroll-reveal{filter:none!important}
+}
