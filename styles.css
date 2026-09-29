@@ -1027,3 +1027,42 @@ footer strong{color:#dbe0e9}
   display:block!important;
   border-radius:12px;
 }
+
+
+/* Download buttons for authorized catalog links */
+.game-downloads{
+  margin-top:18px;
+  padding:16px;
+  border:1px solid rgba(255,212,0,.22);
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(255,212,0,.055),rgba(8,13,20,.82));
+  display:grid;
+  gap:9px;
+}
+.download-title{
+  color:#ffd400;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+.download-button{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:13px 15px;
+  border:1px solid rgba(255,212,0,.35);
+  border-radius:9px;
+  background:linear-gradient(135deg,#e8b900,#ffd400);
+  color:#141100;
+  text-decoration:none;
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
+  transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+}
+.download-button span{font-size:12px;font-weight:950;letter-spacing:.04em}
+.download-button small{font-size:9px;font-weight:800;opacity:.72;text-align:right}
+.download-button:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.04);
+  box-shadow:0 14px 30px rgba(0,0,0,.30),0 0 24px rgba(255,212,0,.18);
+}
