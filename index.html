@@ -35,25 +35,19 @@
     <button class="account-btn primary" type="button">CADASTRAR</button>
   </div>
 </header>
-
 <main id="inicio">
   <section class="hero">
-    <div class="hero-art" aria-hidden="true"></div>
-    <div class="hero-overlay"></div>
+    <div class="hero-art" aria-hidden="true"></div><div class="hero-overlay"></div>
     <div class="hero-content">
       <span class="eyebrow">DESTAQUE</span>
       <h1>GOD OF WAR<br><span>RAGNARÖK</span></h1>
       <p>Embarque em uma jornada pelos Nove Reinos. Explore o catálogo PKGBRASIL e encontre informações do jogo em segundos.</p>
-      <div class="hero-actions">
-        <button class="btn btn-primary" id="heroDetails" type="button">VER DETALHES</button>
-        <a class="btn btn-secondary" href="#jogos">VER CATÁLOGO</a>
-      </div>
+      <div class="hero-actions"><button class="btn btn-primary" id="heroDetails" type="button">VER DETALHES</button><a class="btn btn-secondary" href="#jogos">VER CATÁLOGO</a></div>
     </div>
     <div class="slider-dots" aria-hidden="true"><span class="active"></span><span></span><span></span></div>
   </section>
-
-  <section class="platform-strip" aria-label="Plataformas e seções">
-    <button class="platform active" data-platform="PS4"><strong>PS4</strong><span>Catálogo disponível</span></button>
+  <section class="platform-strip">
+    <button class="platform active"><strong>PS4</strong><span>Catálogo disponível</span></button>
     <button class="platform" disabled><strong>PS5</strong><span>Em breve</span></button>
     <button class="platform" disabled><strong>PS3</strong><span>Em breve</span></button>
     <button class="platform" disabled><strong>PS2</strong><span>Em breve</span></button>
@@ -62,88 +56,26 @@
     <button class="platform" disabled><strong>TEMAS</strong><span>Personalização</span></button>
     <button class="platform" disabled id="utilitarios"><strong>UTILITÁRIOS</strong><span>Ferramentas</span></button>
   </section>
-
   <div class="page-grid">
     <div class="content-column">
-      <section class="section" id="jogos">
-        <div class="section-heading">
-          <div><span class="section-bar"></span><h2>LANÇAMENTOS</h2></div>
-          <button class="link-button" data-show-all type="button">VER TODOS</button>
-        </div>
-        <div class="game-row" id="latestGames"></div>
-      </section>
-
-      <section class="section">
-        <div class="section-heading">
-          <div><span class="section-bar"></span><h2>DESTAQUES DO CATÁLOGO</h2></div>
-          <button class="link-button" data-show-all type="button">VER TODOS</button>
-        </div>
-        <div class="game-row" id="featuredGames"></div>
-      </section>
-
+      <section class="section" id="jogos"><div class="section-heading"><div><span class="section-bar"></span><h2>LANÇAMENTOS</h2></div><button class="link-button" data-show-all type="button">VER TODOS</button></div><div class="game-row" id="latestGames"></div></section>
+      <section class="section"><div class="section-heading"><div><span class="section-bar"></span><h2>DESTAQUES DO CATÁLOGO</h2></div><button class="link-button" data-show-all type="button">VER TODOS</button></div><div class="game-row" id="featuredGames"></div></section>
       <section class="section catalog-section">
-        <div class="catalog-header">
-          <div>
-            <span class="section-label">CATÁLOGO COMPLETO</span>
-            <h2>Todos os jogos</h2>
-            <p id="catalogStatus">Carregando catálogo...</p>
-          </div>
-          <div class="filters">
-            <select id="categoryFilter" aria-label="Filtrar categoria">
-              <option value="">Todas as categorias</option>
-            </select>
-            <select id="dubFilter" aria-label="Filtrar idioma">
-              <option value="">Todos</option>
-              <option value="dublado">Dublados</option>
-            </select>
-          </div>
+        <div class="catalog-header"><div><span class="section-label">CATÁLOGO COMPLETO</span><h2>Todos os jogos</h2><p id="catalogStatus">Carregando catálogo...</p></div>
+          <div class="filters"><select id="categoryFilter"><option value="">Todas as categorias</option></select><select id="dubFilter"><option value="">Todos</option><option value="dublado">Dublados</option></select></div>
         </div>
-        <div class="catalog-grid" id="catalogGrid"></div>
-        <button class="load-more" id="loadMore" type="button">CARREGAR MAIS</button>
+        <div class="catalog-grid" id="catalogGrid"></div><button class="load-more" id="loadMore" type="button">CARREGAR MAIS</button>
       </section>
     </div>
-
     <aside class="sidebar">
-      <article class="side-card" id="tutoriais">
-        <div class="side-icon">P</div>
-        <div><h3>PKGBOT</h3><p>Pesquisa inteligente do catálogo em desenvolvimento.</p></div>
-        <span class="side-arrow">›</span>
-      </article>
-      <article class="side-card">
-        <div class="side-icon">I</div>
-        <div><h3>COMO USAR</h3><p>Guia rápido para navegar, pesquisar e localizar jogos.</p></div>
-        <span class="side-arrow">›</span>
-      </article>
-      <article class="side-card" id="solicitar">
-        <div class="side-icon">S</div>
-        <div><h3>SOLICITAR JOGO</h3><p>Área reservada para pedidos e sugestões da comunidade.</p></div>
-        <span class="side-arrow">›</span>
-      </article>
-      <article class="promo-card">
-        <div class="promo-mark">P</div>
-        <h3>PKGBRASIL</h3>
-        <p>TUDO EM UM SÓ LUGAR</p>
-        <ul>
-          <li>CATÁLOGO DE PS4</li>
-          <li>BUSCA POR CÓDIGO</li>
-          <li>FILTROS POR CATEGORIA</li>
-          <li>ATUALIZAÇÕES DO CATÁLOGO</li>
-        </ul>
-      </article>
+      <article class="side-card" id="tutoriais"><div class="side-icon">P</div><div><h3>PKGBOT</h3><p>Pesquisa inteligente do catálogo em desenvolvimento.</p></div><span class="side-arrow">›</span></article>
+      <article class="side-card"><div class="side-icon">I</div><div><h3>COMO USAR</h3><p>Guia rápido para navegar, pesquisar e localizar jogos.</p></div><span class="side-arrow">›</span></article>
+      <article class="side-card" id="solicitar"><div class="side-icon">S</div><div><h3>SOLICITAR JOGO</h3><p>Área reservada para pedidos e sugestões da comunidade.</p></div><span class="side-arrow">›</span></article>
+      <article class="promo-card"><div class="promo-mark">P</div><h3>PKGBRASIL</h3><p>TUDO EM UM SÓ LUGAR</p><ul><li>CATÁLOGO DE PS4</li><li>BUSCA POR CÓDIGO</li><li>FILTROS POR CATEGORIA</li><li>ATUALIZAÇÕES DO CATÁLOGO</li></ul></article>
     </aside>
   </div>
 </main>
-
-<dialog id="gameModal">
-  <button class="modal-close" id="modalClose" type="button" aria-label="Fechar">×</button>
-  <div id="modalContent"></div>
-</dialog>
-
-<footer id="contato">
-  <div class="brand footer-brand"><span class="brand-mark">P</span><span class="brand-name"><b>PKG</b><strong>BRASIL</strong></span></div>
-  <div><strong>PKGBRASIL</strong><p>Catálogo gamer em evolução contínua.</p></div>
-</footer>
-
+<dialog id="gameModal"><button class="modal-close" id="modalClose" type="button" aria-label="Fechar">×</button><div id="modalContent"></div></dialog>
+<footer id="contato"><div class="brand footer-brand"><span class="brand-mark">P</span><span class="brand-name"><b>PKG</b><strong>BRASIL</strong></span></div><div><strong>PKGBRASIL</strong><p>Catálogo gamer em evolução contínua.</p></div></footer>
 <script src="app.js"></script>
-</body>
-</html>
+</body></html>
