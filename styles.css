@@ -47,3 +47,14 @@
 .brand.brand-image img{display:block;width:auto;height:48px;max-width:220px;object-fit:contain}
 .hero .hero-content{display:none!important}
 @media(max-width:620px){.brand.brand-image img{height:40px;max-width:160px}}
+
+/* PKGBRASIL main artwork: full image + cinematic page motion */
+.hero{position:relative;width:100%;height:auto!important;min-height:0!important;aspect-ratio:16/9;overflow:hidden;background:#050505}
+.hero-art.channel-cover{position:absolute;inset:-2%;width:104%;height:104%;background-image:url("ativos/pkgbrasil-channel-cover.jpg")!important;background-repeat:no-repeat;background-size:cover!important;background-position:center center!important;filter:none;animation:pkgMainArtwork 11s ease-in-out infinite alternate;transform-origin:center}
+.hero-overlay{pointer-events:none;background:linear-gradient(180deg,transparent 72%,rgba(0,0,0,.58) 100%)!important}
+.hero-dots{display:none!important}
+@keyframes pkgMainArtwork{0%{transform:scale(1.01) translate3d(0,0,0)}100%{transform:scale(1.055) translate3d(0,-.35%,0)}}
+main>section,.platform-strip,.membership,footer{animation:pkgPageArrival .7s cubic-bezier(.2,.75,.25,1) both}
+@keyframes pkgPageArrival{from{opacity:.15;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.hero{aspect-ratio:16/9}.hero-art.channel-cover{background-size:cover!important;background-position:center!important}}
+@media(prefers-reduced-motion:reduce){.hero-art.channel-cover,main>section,.platform-strip,.membership,footer{animation:none!important}}
