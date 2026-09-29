@@ -58,3 +58,18 @@ main>section,.platform-strip,.membership,footer{animation:pkgPageArrival .7s cub
 @keyframes pkgPageArrival{from{opacity:.15;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:700px){.hero{aspect-ratio:16/9}.hero-art.channel-cover{background-size:cover!important;background-position:center!important}}
 @media(prefers-reduced-motion:reduce){.hero-art.channel-cover,main>section,.platform-strip,.membership,footer{animation:none!important}}
+
+/* High-impact PKGBRASIL hero motion */
+.hero{isolation:isolate}
+.hero-art.channel-cover{animation:pkgImpact 6.5s cubic-bezier(.55,.05,.45,.95) infinite alternate!important;will-change:transform,filter}
+.hero:before,.hero:after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none}
+.hero:before{background:linear-gradient(110deg,transparent 0 38%,rgba(255,212,0,.22) 46%,rgba(255,238,120,.42) 49%,transparent 56%);transform:translateX(-130%);animation:pkgSlash 4.2s ease-in-out infinite;mix-blend-mode:screen}
+.hero:after{inset:auto 0 0;height:5px;background:linear-gradient(90deg,transparent,#ffd400 20%,#fff4a3 50%,#ffd400 80%,transparent);box-shadow:0 0 14px #ffd400,0 0 34px rgba(255,212,0,.72);animation:pkgPulse 1.15s ease-in-out infinite alternate}
+@keyframes pkgImpact{0%{transform:scale(1.015) translate3d(-.6%,.2%,0);filter:brightness(.88) contrast(1.08)}45%{transform:scale(1.055) translate3d(.4%,-.5%,0);filter:brightness(1.04) contrast(1.12)}100%{transform:scale(1.095) translate3d(-.25%,-1%,0);filter:brightness(1.12) contrast(1.16)}}
+@keyframes pkgSlash{0%,42%{transform:translateX(-130%);opacity:0}48%{opacity:1}68%,100%{transform:translateX(130%);opacity:0}}
+@keyframes pkgPulse{from{opacity:.55;transform:scaleX(.82)}to{opacity:1;transform:scaleX(1)}}
+.scroll-reveal{transition-duration:.42s!important}
+.scroll-reveal.from-down{transform:translateY(58px) scale(.965)!important}
+.scroll-reveal.from-up{transform:translateY(-58px) scale(.965)!important}
+.scroll-reveal.is-visible{transform:translateY(0) scale(1)!important}
+@media(prefers-reduced-motion:reduce){.hero-art.channel-cover,.hero:before,.hero:after{animation:none!important}.hero:before{display:none}}
