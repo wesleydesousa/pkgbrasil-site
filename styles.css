@@ -999,3 +999,9 @@ footer strong{color:#dbe0e9}
 @media(prefers-reduced-motion:reduce){
   .hero-banner-image{animation:none!important}
 }
+\n
+/* Wikimedia Commons game artwork */
+.cover img[data-wiki-title]{opacity:0;transition:opacity .35s ease,transform .42s cubic-bezier(.2,.8,.2,1),filter .3s ease}
+.cover img[data-wiki-title][src]{opacity:1}
+.cover-source{position:absolute;z-index:6;right:7px;bottom:7px;padding:3px 6px;border-radius:5px;background:rgba(4,8,14,.78);border:1px solid rgba(255,255,255,.18);color:#d9e2f1;font-size:7px;font-weight:800;letter-spacing:.03em;backdrop-filter:blur(5px)}
+.cover-source:hover{border-color:#ffd400;color:#ffd400}
