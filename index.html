@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#050807">
+  <title>PKGBRASIL | Catálogo Gamer</title>
+  <meta name="description" content="Catálogo gamer PKGBRASIL com busca rápida, categorias e fichas de jogos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav" id="nav">
+  <a class="brand" href="#inicio" aria-label="PKGBRASIL">
+    <span class="brand-pkg">PKG</span><span class="brand-br">BR</span><span class="brand-asil">ASIL</span>
+  </a>
+  <nav class="links" aria-label="Navegação principal">
+    <a href="#inicio">Início</a>
+    <a href="#catalogo">Jogos</a>
+    <a href="#recentes">Recentes</a>
+    <a href="#bot">PKGBot</a>
+  </nav>
+  <button class="search-toggle" id="searchToggle" aria-label="Abrir pesquisa">⌕</button>
+</header>
+
+<main id="inicio">
+  <section class="hero" id="hero">
+    <div class="hero-shade"></div>
+    <div class="hero-content">
+      <span class="kicker">PKGBRASIL ORIGINAL</span>
+      <h1 id="heroTitle">Seu catálogo gamer, do seu jeito.</h1>
+      <p id="heroDescription">Descubra jogos, pesquise pelo título ou código e navegue por uma experiência inspirada em streaming.</p>
+      <div class="hero-meta"><span>🎮 PlayStation</span><span>🇧🇷 PT-BR</span><span>⚡ Busca rápida</span></div>
+      <div class="hero-actions">
+        <a class="btn primary" href="#catalogo">▶ Explorar catálogo</a>
+        <button class="btn ghost" id="heroInfo">ⓘ Mais informações</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="search-panel" id="catalogo">
+    <div>
+      <span class="section-kicker">ENCONTRE EM SEGUNDOS</span>
+      <h2>O que você quer jogar hoje?</h2>
+    </div>
+    <div class="searchbox">
+      <span>⌕</span>
+      <input id="searchInput" type="search" placeholder="Buscar por nome ou código CUSA..." autocomplete="off">
+      <kbd>/</kbd>
+    </div>
+  </section>
+
+  <section class="shelf" id="recentes">
+    <div class="shelf-title"><h2>Adicionados recentemente</h2><span id="resultCount"></span></div>
+    <div class="rail" id="recentRail"></div>
+  </section>
+
+  <section class="shelf">
+    <div class="shelf-title"><h2>Dublados em PT-BR</h2><span>Seleção PKGBRASIL</span></div>
+    <div class="rail" id="dubRail"></div>
+  </section>
+
+  <section class="shelf">
+    <div class="shelf-title"><h2>Explore o catálogo</h2><span>Mais jogos chegando</span></div>
+    <div class="grid" id="gameGrid"></div>
+  </section>
+
+  <section class="bot-section" id="bot">
+    <div class="bot-glow"></div>
+    <div class="bot-copy">
+      <span class="section-kicker">PRÓXIMA FASE</span>
+      <h2>PKGBot 🤖</h2>
+      <p>Em breve você poderá escrever o nome ou o código de um jogo e o PKGBot localizará a ficha no catálogo automaticamente.</p>
+      <div class="fake-chat"><span>Você</span><p>Procure Bloodborne</p></div>
+      <div class="fake-chat bot"><span>PKGBot</span><p>Encontrei! CUSA00900 • PS4 • PT-BR</p></div>
+    </div>
+  </section>
+</main>
+
+<dialog id="gameModal">
+  <button class="modal-close" id="modalClose" aria-label="Fechar">×</button>
+  <div id="modalContent"></div>
+</dialog>
+
+<footer>
+  <div class="brand small"><span class="brand-pkg">PKG</span><span class="brand-br">BR</span><span class="brand-asil">ASIL</span></div>
+  <p>Catálogo gamer em desenvolvimento.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
