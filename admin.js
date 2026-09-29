@@ -1,4 +1,4 @@
-const MASTER_EMAIL="wesleysousa211@gmial.com";
+const MASTER_EMAIL="wesleysousa211@gmail.com";
 const MASTER_PASSWORD_SHA256="5a4f7f24cbf5870c64fb16104c470f79ef5ee97d2d96349d0378f123b223f1fd";
 const SESSION_KEY="pkgbrasil_temp_master";
 
