@@ -1240,3 +1240,41 @@ footer strong{color:#dbe0e9}
   .sales-cta-head{align-items:flex-start;flex-direction:column}
   .telegram-float{right:12px;bottom:12px}
 }
+
+
+/* Text-only product cards: game cover images removed */
+.game-card-text-only{
+  min-height:150px;
+  display:flex;
+  align-items:stretch;
+  background:
+    radial-gradient(circle at 100% 0,rgba(255,212,0,.08),transparent 42%),
+    linear-gradient(145deg,#0a111d,#070c14);
+}
+.game-card-text-only .game-info{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  padding:16px;
+}
+.game-card-text-only .product-platform{
+  display:inline-flex;
+  align-self:flex-start;
+  margin-bottom:12px;
+  padding:5px 8px;
+  border:1px solid rgba(255,212,0,.3);
+  border-radius:6px;
+  background:rgba(255,212,0,.07);
+  color:#ffd400;
+  font-size:9px;
+  font-weight:950;
+}
+.game-card-text-only .game-title{
+  height:auto;
+  min-height:48px;
+  font-size:13px;
+  line-height:1.35;
+  margin-bottom:14px;
+}
+.game-card-text-only .game-meta{margin-top:auto}
+.game-card-text-only .mini-action{margin-top:14px;height:34px}
