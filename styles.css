@@ -115,3 +115,45 @@ footer{display:flex;align-items:center;gap:18px;padding:26px 4%;border-top:1px s
   .game-info{min-height:116px}
   .game-title{min-height:30px}
 }
+
+
+/* High-resolution local covers */
+.game-card{
+  transform:none;
+  will-change:auto;
+}
+.game-card:hover{
+  transform:translateY(-4px);
+}
+.cover,
+.hero-mini,
+.modal-cover{
+  background:#090b0f;
+}
+.cover img,
+.hero-mini img,
+.modal-cover img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  image-rendering:auto;
+  filter:none!important;
+  transform:none!important;
+  backface-visibility:visible;
+  opacity:0;
+  transition:opacity .18s ease;
+}
+.cover img.cover-loaded,
+.hero-mini img.cover-loaded,
+.modal-cover img.cover-loaded{
+  opacity:1;
+}
+.game-card:hover .cover img{
+  transform:none!important;
+}
+.hero-mini .cover-fallback{
+  font-size:11px;
+  text-align:center;
+}
