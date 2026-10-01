@@ -2,76 +2,141 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#070b16">
-  <meta name="description" content="PKGBRASIL - loja gamer com catálogo, atendimento e pedidos direcionados pelo Telegram.">
-  <title>PKGBRASIL | Loja Gamer</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#070707">
+  <meta name="description" content="PKGBRASIL - catálogo gamer PS4 com busca rápida e atendimento direto pelo Telegram.">
+  <title>PKGBRASIL | Catálogo PS4 e atendimento no Telegram</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260930-11">
+  <link rel="stylesheet" href="styles.css?v=20261001-1">
 </head>
 <body>
 <header class="topbar">
-  <a class="brand brand-image" href="#inicio" aria-label="PKGBRASIL - Início"><img src="ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL"></a>
+  <a class="brand brand-image" href="#inicio" aria-label="PKGBRASIL - Início">
+    <img src="ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL">
+  </a>
   <nav class="main-nav" aria-label="Navegação principal">
-    <a class="active" href="index.html">INÍCIO</a>
-    <a href="jogos.html">CATÁLOGO</a>
-    
-    
-    
-    
+    <a class="active" href="#inicio">INÍCIO</a>
+    <a href="#catalogo">CATÁLOGO</a>
+    <a href="como-usar.html">COMO COMPRAR</a>
     <a href="contato.html">TELEGRAM</a>
   </nav>
   <div class="header-actions">
     <label class="search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3m2.3-5.2a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
-      <input id="globalSearch" type="search" placeholder="Buscar produtos, códigos, categorias..." autocomplete="off">
+      <input id="globalSearch" type="search" placeholder="Buscar jogo ou código..." autocomplete="off">
     </label>
-    <a class="account-btn secondary" href="como-usar.html">COMO COMPRAR</a>
-    <a class="account-btn primary" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">COMPRAR NO TELEGRAM</a>
+    <a class="account-btn primary" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">FALAR NO TELEGRAM</a>
   </div>
 </header>
+
 <main id="inicio">
-  <section class="hero hero-new-banner" aria-label="Banner PKGBRASIL">
-    <img class="hero-banner-image" src="ativos/Imagem%20do%20ChatGPT%2029%20de%20set.%20de%202026,%2010_36_58.png" alt="PKGBRASIL - loja e catálogo gamer">
-    <a class="hero-catalog-hotspot" href="jogos.html" aria-label="Acessar catálogo"></a>
+  <section class="sales-hero" aria-label="PKGBRASIL - catálogo PS4">
+    <div class="sales-hero-copy">
+      <span class="hero-kicker">PKGBRASIL • CATÁLOGO PS4</span>
+      <h1>Chega de perder tempo com <strong>links confusos.</strong></h1>
+      <p>Encontre o jogo, confira código e versão e continue o atendimento diretamente com a PKGBRASIL no Telegram.</p>
+      <div class="hero-actions">
+        <a class="hero-btn primary" href="#catalogo">VER CATÁLOGO</a>
+        <a class="hero-btn secondary" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">ABRIR @PKGBRASIL</a>
+      </div>
+      <div class="hero-proof">
+        <span><b>+300</b> títulos catalogados</span>
+        <span><b>PS4</b> foco principal</span>
+        <span><b>1 clique</b> para o Telegram</span>
+      </div>
+    </div>
+    <div class="hero-showcase-wrap">
+      <div class="hero-showcase-glow"></div>
+      <div class="hero-console" aria-hidden="true"><span>PS4</span><i></i></div>
+      <div class="hero-showcase" id="promoShowcase" aria-label="Jogos em destaque"></div>
+      <div class="hero-promo-caption"><strong>CATÁLOGO ORGANIZADO</strong><span>SEM POP-UPS • ATENDIMENTO DIRETO</span></div>
+    </div>
   </section>
-  <div class="sales-ribbon"><strong>LOJA PKGBRASIL</strong><span>Escolha no catálogo e finalize o atendimento pelo Telegram @PKGBrasil.</span></div>
-  <section class="platform-strip">
-    <button class="platform active"><strong>PS4</strong><span>Loja disponível</span></button>
-    <button class="platform" disabled><strong>PS5</strong><span>Em breve</span></button>
-    <button class="platform" disabled><strong>PS3</strong><span>Em breve</span></button>
-    <button class="platform" disabled><strong>PS2</strong><span>Em breve</span></button>
-    <button class="platform" disabled><strong>PSP</strong><span>Em breve</span></button>
+
+  <section class="trust-strip" aria-label="Vantagens PKGBRASIL">
+    <div><b>BUSCA RÁPIDA</b><span>Nome ou código CUSA</span></div>
+    <div><b>CAPAS VISUAIS</b><span>Identifique o jogo mais rápido</span></div>
+    <div><b>ATENDIMENTO DIRETO</b><span>Continue pelo Telegram</span></div>
+    <div><b>CATÁLOGO ATUALIZADO</b><span>Versões e categorias organizadas</span></div>
   </section>
+
   <div class="page-grid">
     <div class="content-column">
-      <section class="section" id="jogos"><div class="section-heading"><div><span class="section-bar"></span><h2>NOVIDADES DA LOJA</h2></div><button class="link-button" data-show-all type="button">VER TODOS</button></div><div class="game-row" id="latestGames"></div></section>
-      <section class="section"><div class="section-heading"><div><span class="section-bar"></span><h2>OFERTAS EM DESTAQUE</h2></div><button class="link-button" data-show-all type="button">VER TODOS</button></div><div class="game-row" id="featuredGames"></div></section>
-      <section class="section catalog-section">
-        <div class="catalog-header"><div><span class="section-label">LOJA PKGBRASIL</span><h2>Escolha seu produto</h2><p id="catalogStatus">Carregando catálogo...</p></div>
-          <div class="filters"><select id="categoryFilter"><option value="">Todas as categorias</option></select><select id="dubFilter"><option value="">Todos</option><option value="dublado">Dublados</option></select></div>
+      <section class="section" id="jogos">
+        <div class="section-heading">
+          <div><span class="section-bar"></span><div><span class="section-label">CHEGARAM AGORA</span><h2>NOVIDADES DA LOJA</h2></div></div>
+          <button class="link-button" data-show-all type="button">VER TODOS</button>
         </div>
-        <div class="catalog-grid" id="catalogGrid"></div><button class="load-more" id="loadMore" type="button">MOSTRAR MAIS PRODUTOS</button>
+        <div class="game-row" id="latestGames"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div><span class="section-bar"></span><div><span class="section-label">SELEÇÃO PKGBRASIL</span><h2>DESTAQUES</h2></div></div>
+          <button class="link-button" data-show-all type="button">VER TODOS</button>
+        </div>
+        <div class="game-row" id="featuredGames"></div>
+      </section>
+
+      <section class="section catalog-section" id="catalogo">
+        <div class="catalog-header">
+          <div>
+            <span class="section-label">CATÁLOGO COMPLETO</span>
+            <h2>Escolha seu jogo</h2>
+            <p id="catalogStatus">Carregando catálogo...</p>
+          </div>
+          <div class="filters">
+            <select id="categoryFilter" aria-label="Filtrar por categoria"><option value="">Todas as categorias</option></select>
+            <select id="dubFilter" aria-label="Filtrar por idioma"><option value="">Todos</option><option value="dublado">Dublados</option></select>
+          </div>
+        </div>
+        <div class="catalog-grid" id="catalogGrid"></div>
+        <button class="load-more" id="loadMore" type="button">MOSTRAR MAIS JOGOS</button>
       </section>
     </div>
+
     <aside class="sidebar">
-      <a class="side-card" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer"><div class="side-icon">T</div><div><h3>ATENDIMENTO TELEGRAM</h3><p>Consulte disponibilidade e condições diretamente com a PKGBRASIL.</p></div><span class="side-arrow">›</span></a>
-      <a class="side-card" href="como-usar.html"><div class="side-icon">C</div><div><h3>COMO COMPRAR</h3><p>Escolha o item, abra os detalhes e fale conosco pelo Telegram.</p></div><span class="side-arrow">›</span></a>
-      <article class="promo-card"><div class="promo-mark promo-logo"><img src="ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL"></div><h3>PKGBRASIL</h3><p>ATENDIMENTO DIRETO</p><ul><li>ESCOLHA NO CATÁLOGO</li><li>CONSULTE DISPONIBILIDADE</li><li>FALE PELO TELEGRAM</li><li>ATENDIMENTO @PKGBRASIL</li></ul></article>
+      <article class="telegram-sales-card">
+        <span class="tg-eyebrow">ATENDIMENTO OFICIAL</span>
+        <img src="ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL">
+        <h3>Achou o jogo que queria?</h3>
+        <p>Abra os detalhes e fale conosco no Telegram para consultar disponibilidade e condições.</p>
+        <a href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">ABRIR @PKGBRASIL</a>
+      </article>
+      <a class="side-card" href="como-usar.html"><div class="side-icon">01</div><div><h3>COMO COMPRAR</h3><p>Veja o passo a passo do catálogo até o atendimento.</p></div><span class="side-arrow">›</span></a>
+      <a class="side-card" href="contato.html"><div class="side-icon">02</div><div><h3>FALE CONOSCO</h3><p>Dúvidas e consultas diretamente no Telegram.</p></div><span class="side-arrow">›</span></a>
     </aside>
   </div>
-<section class="sales-cta" id="como-comprar">
-  <div class="sales-cta-head"><div><span class="section-label">COMO COMPRAR</span><h2>Do catálogo para o Telegram em poucos cliques</h2><p>O site funciona como vitrine. Você escolhe o item e o atendimento comercial continua diretamente no Telegram da PKGBRASIL.</p></div><a class="telegram-wide" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">ABRIR @PKGBRASIL</a></div>
-  <div class="sales-steps">
-    <article class="sales-step"><b>01</b><h3>Escolha no catálogo</h3><p>Use a busca e os filtros para localizar o produto desejado.</p></article>
-    <article class="sales-step"><b>02</b><h3>Abra os detalhes</h3><p>Confira código, versão e informações disponíveis na ficha do item.</p></article>
-    <article class="sales-step"><b>03</b><h3>Fale no Telegram</h3><p>Clique no botão de atendimento para consultar disponibilidade e condições.</p></article>
-  </div>
-  <div class="store-proof"><span>Atendimento direto</span><span>Catálogo organizado</span><span>Produtos e serviços autorizados</span></div>
-</section></main>
-<dialog id="gameModal"><button class="modal-close" id="modalClose" type="button" aria-label="Fechar">×</button><div id="modalContent"></div></dialog>
-<footer id="contato"><div class="brand brand-image footer-brand"><img src="ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL"></div><div><strong>PKGBRASIL</strong><p>Loja gamer com atendimento e pedidos pelo Telegram.</p></div></footer>
-<script src="app.js?v=20260930-11"></script>
-<a class="telegram-float" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">TELEGRAM</a></body></html>
+
+  <section class="sales-cta" id="como-comprar">
+    <div class="sales-cta-copy">
+      <span class="section-label">DA VITRINE PARA O TELEGRAM</span>
+      <h2>Escolheu? Agora fale direto com a PKGBRASIL.</h2>
+      <p>Sem formulário comprido. Abra o jogo, confira as informações e continue o atendimento no nosso Telegram.</p>
+    </div>
+    <div class="sales-steps">
+      <article><b>1</b><span>Encontre o jogo</span></article>
+      <article><b>2</b><span>Abra os detalhes</span></article>
+      <article><b>3</b><span>Fale no Telegram</span></article>
+    </div>
+    <a class="telegram-wide" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">IR PARA @PKGBRASIL</a>
+  </section>
+</main>
+
+<dialog id="gameModal">
+  <button class="modal-close" id="modalClose" type="button" aria-label="Fechar">×</button>
+  <div id="modalContent"></div>
+</dialog>
+
+<footer>
+  <a class="brand brand-image footer-brand" href="#inicio"><img src="ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL"></a>
+  <div><strong>PKGBRASIL</strong><p>Catálogo gamer com atendimento direto pelo Telegram.</p></div>
+  <a class="footer-telegram" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">@PKGBrasil</a>
+</footer>
+
+<a class="telegram-float" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">TELEGRAM</a>
+<script src="app.js?v=20261001-1"></script>
+</body>
+</html>
