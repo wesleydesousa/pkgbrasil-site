@@ -47,3 +47,71 @@ footer{display:flex;align-items:center;gap:18px;padding:26px 4%;border-top:1px s
 @media(max-width:980px){.main-nav{display:none}.search{width:240px}.sales-hero{grid-template-columns:1fr;padding:32px}.hero-showcase-wrap{min-height:410px}.trust-strip{grid-template-columns:repeat(2,1fr)}.trust-strip>div:nth-child(2){border-right:0}.page-grid{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px}.telegram-sales-card{position:static;margin:0}.side-card{margin:0}.catalog-grid{grid-template-columns:repeat(3,1fr)}.sales-cta{grid-template-columns:1fr}.telegram-wide{grid-column:1;grid-row:auto;min-width:0}.subpage-grid{grid-template-columns:1fr}.guide-steps{grid-template-columns:1fr}}
 @media(max-width:680px){.topbar{height:64px;padding:0 12px}.brand-image img{width:84px;height:42px}.header-actions .account-btn{display:none}.search{width:44px;padding:0 12px}.search input{width:0;opacity:0}.search:focus-within{width:180px}.search:focus-within input{width:100%;opacity:1}.sales-hero{margin:12px 10px 0;padding:24px 19px;min-height:0;border-radius:15px}.sales-hero h1{font-size:40px}.sales-hero-copy>p{font-size:12px}.hero-actions{display:grid;grid-template-columns:1fr}.hero-showcase-wrap{min-height:330px}.hero-console{left:35%;width:32%;height:65%}.hero-mini{width:28%}.hero-mini:nth-child(2){left:12%}.hero-mini:nth-child(3){right:12%}.hero-promo-caption{bottom:-2px}.trust-strip{margin:10px;grid-template-columns:1fr 1fr}.trust-strip>div{padding:12px;border-bottom:1px solid #1b1f25}.page-grid{margin:0;padding:10px 10px 45px}.sidebar{grid-template-columns:1fr}.game-row{grid-auto-columns:44%}.catalog-header{align-items:stretch;flex-direction:column}.filters{display:grid;grid-template-columns:1fr 1fr}.catalog-grid{grid-template-columns:repeat(2,1fr);gap:9px}.game-info{padding:9px}.game-title{font-size:10px}.sales-cta{margin:0 10px 35px;padding:22px}.sales-steps{display:grid;grid-template-columns:1fr}.modal-product{grid-template-columns:1fr}.modal-cover{min-height:310px}.modal-content-side{padding:24px 19px}.subpage-main{padding:25px 10px 50px}.subpage-hero{padding:24px}.footer-telegram{display:none}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+
+/* Alignment pass: covers, titles and sales hero */
+.sales-hero{
+  align-items:stretch;
+}
+.sales-hero-copy{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.hero-showcase-wrap{
+  align-self:stretch;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.game-row{
+  align-items:stretch;
+}
+.catalog-grid{
+  align-items:stretch;
+}
+.game-card{
+  height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr;
+}
+.cover{
+  width:100%;
+  aspect-ratio:2/2.85;
+}
+.cover img,
+.modal-cover img{
+  object-position:center center;
+}
+.game-info{
+  min-height:126px;
+  display:flex;
+  flex-direction:column;
+}
+.game-title{
+  height:auto;
+  min-height:34px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.game-meta{
+  margin-top:auto;
+  min-height:18px;
+  align-items:center;
+}
+.mini-action{
+  flex:0 0 auto;
+}
+.hero-mini{
+  display:block;
+}
+.hero-mini img{
+  display:block;
+}
+@media(max-width:680px){
+  .game-info{min-height:116px}
+  .game-title{min-height:30px}
+}
