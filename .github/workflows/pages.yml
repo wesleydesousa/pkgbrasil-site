@@ -27,6 +27,15 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Prepare game covers
+        run: |
+          if [ -f "ativos/fotos_github_compactado.zip" ]; then
+            rm -rf fotos
+            unzip -q -o "ativos/fotos_github_compactado.zip" -d .
+            echo "Game covers extracted: $(find fotos -type f -iname '*.jpg' | wc -l)"
+            rm -f "ativos/fotos_github_compactado.zip"
+          fi
+          test -d fotos
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
