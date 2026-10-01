@@ -17,33 +17,59 @@ const featuredCodes=["CUSA34384","CUSA33387","CUSA03041","CUSA07820","CUSA28561"
 const norm=(s="")=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const esc=(s="")=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 const initials=(t="")=>t.split(/\s+/).filter(Boolean).slice(0,3).map(x=>x[0]).join("").toUpperCase();
-const cleanTitle=(t="")=>t.replace(/\([^)]*(?:DLC|MOD|DUBLAD)[^)]*\)/gi,"").replace(/\b(?:PS4|PKG|PT[- ]?BR|DUBLADO|DUBLADA)\b/gi,"").replace(/\s{2,}/g," ").trim();
+const cleanTitle=(t="")=>String(t)
+  .replace(/\([^)]*(?:DLC|MOD|DUBLAD)[^)]*\)/gi,"")
+  .replace(/\b(?:PS4|PKG|PT[- ]?BR|DUBLADO|DUBLADA)\b/gi,"")
+  .replace(/\b(?:DELUXE|ULTIMATE|GOLD|PREMIUM|COMPLETE|SPECIAL|LEGENDARY) EDITION\b/gi,"")
+  .replace(/\s{2,}/g," ").trim();
+const titleTokens=(t="")=>{
+  const stop=new Set(["the","of","and","edition","ps4","pkg","video","game","jogo","games"]);
+  return norm(cleanTitle(t)).replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(x=>x.length>1&&!stop.has(x));
+};
+const coverScore=(gameTitle,pageTitle)=>{
+  const a=titleTokens(gameTitle),b=titleTokens(pageTitle);
+  if(!a.length||!b.length)return 0;
+  const bs=new Set(b);
+  const common=a.filter(x=>bs.has(x)).length;
+  const coverage=common/a.length;
+  const precision=common/b.length;
+  let score=coverage*.75+precision*.25;
+  const ga=norm(cleanTitle(gameTitle)).replace(/[^a-z0-9]/g,"");
+  const pb=norm(pageTitle).replace(/\([^)]*\)/g,"").replace(/[^a-z0-9]/g,"");
+  if(ga===pb)score+=.4;
+  else if(ga.includes(pb)||pb.includes(ga))score+=.12;
+  return score;
+};
 
 const coverCache=new Map();
 async function remoteCover(title){
   const key=cleanTitle(title);
   if(coverCache.has(key))return coverCache.get(key);
   try{
-    const saved=sessionStorage.getItem("pkg-cover:"+key);
+    const saved=sessionStorage.getItem("pkg-cover:v2:"+key);
     if(saved){const v=JSON.parse(saved);coverCache.set(key,v);return v}
   }catch{}
   for(const lang of ["pt","en"]){
     try{
       const q=encodeURIComponent(key+" video game");
-      const r=await fetch("https://"+lang+".wikipedia.org/w/rest.php/v1/search/page?q="+q+"&limit=6",{credentials:"omit"});
+      const r=await fetch("https://"+lang+".wikipedia.org/w/rest.php/v1/search/page?q="+q+"&limit=8",{credentials:"omit"});
       if(!r.ok)continue;
       const data=await r.json();
-      const pages=(data.pages||[]).filter(p=>p.thumbnail?.url);
-      const target=pages.find(p=>/jogo|video game|videogame|electronic game/i.test(p.description||""))||pages[0];
-      if(target){
+      const ranked=(data.pages||[])
+        .filter(p=>p.thumbnail?.url&&/jogo|video game|videogame|electronic game/i.test(p.description||""))
+        .map(p=>({...p,score:coverScore(title,p.title||"")}))
+        .sort((a,b)=>b.score-a.score);
+      const target=ranked[0];
+      if(target&&target.score>=.62){
         const value="https:"+target.thumbnail.url;
         coverCache.set(key,value);
-        try{sessionStorage.setItem("pkg-cover:"+key,JSON.stringify(value))}catch{}
+        try{sessionStorage.setItem("pkg-cover:v2:"+key,JSON.stringify(value))}catch{}
         return value;
       }
     }catch{}
   }
   coverCache.set(key,null);
+  try{sessionStorage.setItem("pkg-cover:v2:"+key,"null")}catch{}
   return null;
 }
 async function fallbackCover(img){
