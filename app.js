@@ -18,7 +18,9 @@ const norm=(s="")=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toL
 const esc=(s="")=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 const initials=(t="")=>t.split(/\s+/).filter(Boolean).slice(0,3).map(x=>x[0]).join("").toUpperCase();
 function bindCover(img){
-  img.addEventListener("load",()=>{img.classList.add("cover-loaded")},{once:true});
+  const reveal=()=>img.classList.add("cover-loaded");
+  if(img.complete&&img.naturalWidth>0)reveal();
+  else img.addEventListener("load",reveal,{once:true});
   img.addEventListener("error",()=>{img.remove()},{once:true});
 }
 function coverHtml(g,extraClass=""){
@@ -96,5 +98,20 @@ els.modal?.addEventListener("click",e=>{if(e.target===els.modal)els.modal.close(
 document.querySelectorAll("[data-show-all]").forEach(b=>b.addEventListener("click",()=>document.querySelector("#catalogo").scrollIntoView({behavior:"smooth"})));
 window.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==els.search){e.preventDefault();els.search?.focus()}if(e.key==="Escape"&&els.modal?.open)els.modal.close()});
 
-(()=>{const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;let p=document.querySelector("#scrollProgress");if(!p){p=document.createElement("div");p.id="scrollProgress";document.body.prepend(p)}const progress=()=>{const m=document.documentElement.scrollHeight-innerHeight;p.style.width=(m>0?Math.min(100,scrollY/m*100):0)+"%"};addEventListener("scroll",progress,{passive:true});progress();if(reduced)return;const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("gamer-visible");io.unobserve(e.target)}}),{threshold:.06});const arm=(root=document)=>root.querySelectorAll(".game-card:not([data-gamer-armed])").forEach((el,i)=>{el.dataset.gamerArmed="1";el.classList.add("gamer-reveal-card");el.style.setProperty("--delay",Math.min(i%10,9)*30+"ms");io.observe(el)});arm();new MutationObserver(()=>arm()).observe(document.body,{subtree:true,childList:true});();
+
+(()=>{
+  let progress=document.querySelector("#scrollProgress");
+  if(!progress){
+    progress=document.createElement("div");
+    progress.id="scrollProgress";
+    document.body.prepend(progress);
+  }
+  const updateProgress=()=>{
+    const max=document.documentElement.scrollHeight-innerHeight;
+    progress.style.width=(max>0?Math.min(100,scrollY/max*100):0)+"%";
+  };
+  addEventListener("scroll",updateProgress,{passive:true});
+  addEventListener("resize",updateProgress,{passive:true});
+  updateProgress();
+})();
 init();
