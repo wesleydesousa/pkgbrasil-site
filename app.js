@@ -80,6 +80,7 @@ function fillCategories(){
     const o=document.createElement("option");o.value=c;o.textContent=c;els.category.appendChild(o);
   });
 }
+const params=new URLSearchParams(location.search);if(params.get("q")){state.query=params.get("q");if(els.search)els.search.value=state.query}
 async function init(){
   try{
     const r=await fetch("data/catalogo.json",{cache:"no-store"});
