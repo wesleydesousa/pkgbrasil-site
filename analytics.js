@@ -1,6 +1,6 @@
 (() => {
   const meta = document.querySelector('meta[name="ga-measurement-id"]');
-  const measurementId = (meta?.content || "").trim();
+  const measurementId = (window.PKGBRASIL_GA_ID || meta?.content || "").trim();
 
   const pageType = () => {
     const p = location.pathname.replace(/\/+$/, "") || "/";
