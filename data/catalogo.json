@@ -202,7 +202,7 @@
       "codigo": "CUSA08801",
       "versao": "1.08",
       "dlc": false,
-      "categoria": "Jogos",
+      "categoria": "RPG",
       "capa": "fotos/42.jpg",
       "dublado": false
     },
@@ -644,7 +644,7 @@
       "codigo": "CUSA44075",
       "versao": "1.03",
       "dlc": true,
-      "categoria": "Jogos",
+      "categoria": "Luta",
       "capa": "fotos/121.jpg",
       "dublado": false
     },
@@ -756,7 +756,7 @@
       "codigo": "CUSA04841",
       "versao": "6.04",
       "dlc": false,
-      "categoria": "Jogos",
+      "categoria": "Aventura",
       "capa": "fotos/145.jpg",
       "dublado": true
     },
@@ -1815,7 +1815,7 @@
       "codigo": "CUSA09878",
       "versao": "1.03",
       "dlc": true,
-      "categoria": "Jogos",
+      "categoria": "Aventura",
       "capa": "fotos/527.jpg",
       "dublado": true
     },
@@ -1845,7 +1845,7 @@
       "codigo": "CUSA07739",
       "versao": "",
       "dlc": false,
-      "categoria": "Jogos",
+      "categoria": "Aventura",
       "capa": "fotos/530.jpg",
       "dublado": true
     },
@@ -2169,7 +2169,7 @@
       "codigo": "CUSA08809",
       "versao": "1.01",
       "dlc": true,
-      "categoria": "Jogos",
+      "categoria": "Aventura",
       "capa": "fotos/659.jpg",
       "dublado": false
     },
@@ -2445,7 +2445,7 @@
       "codigo": "CUSA12650",
       "versao": "1.02",
       "dlc": false,
-      "categoria": "Jogos",
+      "categoria": "Ação e Aventura",
       "capa": "fotos/687.jpg",
       "dublado": false
     },
@@ -2455,7 +2455,7 @@
       "codigo": "CUSA04126",
       "versao": "",
       "dlc": false,
-      "categoria": "Jogos",
+      "categoria": "Ação e Aventura",
       "capa": "fotos/689.jpg",
       "dublado": false,
       "edicao": "Definitive Edition"
@@ -2466,7 +2466,7 @@
       "codigo": "CUSA18201",
       "versao": "1.13",
       "dlc": true,
-      "categoria": "Jogos",
+      "categoria": "Ação e Aventura",
       "capa": "fotos/690.jpg",
       "dublado": false
     },
@@ -2476,7 +2476,7 @@
       "codigo": "CUSA02976",
       "versao": "1.37",
       "dlc": true,
-      "categoria": "Jogos",
+      "categoria": "Ação e Aventura",
       "capa": "fotos/691.jpg",
       "dublado": false,
       "edicao": "Game of the Year Edition"
@@ -2679,7 +2679,7 @@
       "codigo": "CUSA12401",
       "versao": "1.21",
       "dlc": true,
-      "categoria": "Jogos",
+      "categoria": "Ação e Aventura",
       "capa": "fotos/712.jpg",
       "dublado": false,
       "edicao": "Gold Edition"
