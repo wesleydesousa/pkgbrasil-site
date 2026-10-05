@@ -409,3 +409,28 @@ footer{display:flex;align-items:center;gap:18px;padding:26px 4%;border-top:1px s
 .store-proof{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .store-proof span{padding:8px 10px;border:1px solid #202630;border-radius:8px;background:#080a0d;color:#bfc5cf;font-size:9px;font-weight:800}
 @media(max-width:680px){.sales-cta-head{flex-direction:column;align-items:stretch}.sales-cta-head .telegram-wide{flex-basis:auto;width:100%;min-width:0}.store-proof{display:grid;grid-template-columns:1fr}.store-proof span{text-align:center}}
+
+/* Mobile conversion bar + catalog tools */
+.mobile-bottom-bar{display:none}
+.catalog-tools select{flex:0 0 200px;height:44px;padding:0 12px;border:1px solid #252b34;border-radius:10px;background:#0a0d12;color:#cfd3da;font:inherit;font-size:10px}
+@media(max-width:680px){
+  body{padding-bottom:70px}
+  .mobile-bottom-bar{
+    position:fixed;left:10px;right:10px;bottom:10px;z-index:95;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:6px;padding:7px;
+    border:1px solid rgba(255,208,0,.2);
+    border-radius:15px;
+    background:rgba(7,8,10,.96);
+    box-shadow:0 18px 45px rgba(0,0,0,.55);
+    backdrop-filter:blur(16px);
+  }
+  .mobile-bottom-bar a{
+    min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+    border-radius:10px;color:#c9ced7;text-decoration:none;font-size:8px;font-weight:900;letter-spacing:.05em;
+  }
+  .mobile-bottom-bar a:hover,.mobile-bottom-bar a:focus-visible{background:#17140a;color:#fff}
+  .mobile-bottom-bar a:last-child{background:var(--gold);color:#111008}
+  .mobile-bottom-bar span{font-size:15px;line-height:1}
+  .catalog-tools select{flex:1 1 100%;min-width:0}
+}
