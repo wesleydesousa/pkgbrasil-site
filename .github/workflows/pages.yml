@@ -36,6 +36,9 @@ jobs:
             rm -f "ativos/fotos_github_compactado.zip"
           fi
           test -d fotos
+      - name: Generate SEO game pages
+        run: python3 scripts/generate-seo-pages.py
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
