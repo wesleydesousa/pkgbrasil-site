@@ -63,6 +63,12 @@
     button.addEventListener("click", () => send("catalog_more", { increment: 25 }));
   });
 
+  if (pageType() === "game") {
+    const name = document.querySelector(".game-seo-info h1")?.textContent.trim();
+    const itemId = location.pathname.split("/").pop()?.replace(/\.html$/, "");
+    if (name) send("view_item", { item_name: name.slice(0, 100), item_id: itemId });
+  }
+
   document.addEventListener("click", (event) => {
     const telegram = event.target.closest?.('a[href*="t.me/PKGBrasil"]');
     if (telegram) {
