@@ -50,6 +50,12 @@ def schema(game, url):
     }
     if game.get("codigo"):
         data["identifier"] = game["codigo"]
+    extra = []
+    if game.get("edicao"):
+        extra.append({"@type": "PropertyValue", "name": "Edição", "value": game["edicao"]})
+    extra.append({"@type": "PropertyValue", "name": "Dublado", "value": "Sim" if game.get("dublado") else "Não"})
+    extra.append({"@type": "PropertyValue", "name": "DLC", "value": "Sim" if game.get("dlc") else "Não"})
+    data["additionalProperty"] = extra
     data["mainEntityOfPage"] = {"@type": "WebPage", "@id": url}
     return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
@@ -190,6 +196,9 @@ def page(game, slug, related):
 </section>
 </main>
 <footer><a class="brand brand-image footer-brand" href="../"><img src="../ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL"></a><div><strong>PKGBRASIL</strong><p>Catálogo gamer com atendimento direto pelo Telegram.</p></div><div class="page-view-counter"><span>VISUALIZAÇÕES DA PÁGINA</span><img src="https://visitor-badge.laobi.icu/badge?page_id=wesleydesousa.pkgbrasil-site-{slug}" alt="Contador de visualizações desta página" loading="lazy"></div><a class="footer-telegram" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">@PKGBrasil</a></footer>
+<script src="../analytics-config.js" defer></script>
+<script src="../analytics.js" defer></script>
+<script src="../mobile.js" defer></script>
 </body>
 </html>
 '''
