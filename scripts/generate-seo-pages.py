@@ -124,7 +124,7 @@ def page(game, slug, related):
 <meta name="twitter:description" content="{escape(description)}">
 <meta name="twitter:image" content="{BASE}/{game['capa']}">
 <title>{escape(title)} | PS4 | {escape(code)} | PKGBRASIL</title>
-<link rel="stylesheet" href="../styles.css?v=20261005-3">
+<link rel="stylesheet" href="../styles.css?v=20261005-4">
 <script type="application/ld+json">{schema(game, url)}</script>
 <script type="application/ld+json">{breadcrumb_schema(title, url)}</script>
 </head>
@@ -165,14 +165,6 @@ def page(game, slug, related):
 <h2 id="como-identificar">Como identificar a página correta</h2>
 <p>Quando houver mais de uma ficha com o mesmo nome, compare o código e a versão antes de escolher a edição. Nesta página, o identificador de referência é <strong>{escape(code)}</strong>.</p>
 </section>
-<div class="game-seo-specs">
-<div><span>CÓDIGO</span><strong>{escape(code)}</strong></div>
-<div><span>VERSÃO</span><strong>{escape(version)}</strong></div>
-<div><span>CATEGORIA</span><strong>{escape(category)}</strong></div>
-<div><span>DUBLADO</span><strong>{dubbed}</strong></div>
-<div><span>DLC</span><strong>{dlc}</strong></div>
-<div><span>PLATAFORMA</span><strong>PlayStation 4</strong></div>
-</div>
 <div class="game-seo-actions"><a class="hero-btn primary" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">FALAR NO TELEGRAM</a><a class="hero-btn secondary" href="../jogos.html">VOLTAR AO CATÁLOGO</a></div>
 </div>
 </article>
