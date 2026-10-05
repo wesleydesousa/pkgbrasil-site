@@ -39,6 +39,12 @@ def schema(game, url):
         "url": url,
         "gamePlatform": "PlayStation 4",
         "genre": game.get("categoria") or "Jogos",
+        "description": (
+            f"{game['titulo']} no catálogo PKGBRASIL para PlayStation 4. "
+            f"Código {game.get('codigo') or 'não informado'}, "
+            f"versão {game.get('versao') or 'não informada'}, "
+            f"categoria {game.get('categoria') or 'Jogos'}."
+        ),
         "image": f"{BASE}/{game['capa']}",
         "publisher": {"@type": "Organization", "name": "PKGBRASIL"}
     }
