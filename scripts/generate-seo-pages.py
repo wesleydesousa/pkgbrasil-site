@@ -209,7 +209,7 @@ def main():
 
     # Rebuild the public catalog index with crawlable HTML links to every game page.
     catalog_links = "".join(
-        f'<a class="seo-game-link" href="jogos/{slugs[str(g["id"])]}.html"><strong>{escape(g["titulo"])}</strong><span>PS4{(" • " + escape(g.get("codigo"))) if g.get("codigo") else ""}</span></a>'
+        f'<a class="seo-game-link" href="jogos/{slugs[str(g["id"])]}.html" data-search="{escape(g["titulo"])} {escape(g.get("codigo") or "")}" aria-label="Abrir ficha de {escape(g["titulo"])}"><strong>{escape(g["titulo"])}</strong><span>PS4{(" • " + escape(g.get("codigo"))) if g.get("codigo") else ""}</span></a>'
         for g in games
     )
     item_list = json.dumps({
@@ -230,12 +230,14 @@ def main():
         if start >= 0:
             end = html.find("</section>", start) + len("</section>")
             if end > start:
-                html = html[:start] + f'<section class="seo-catalog" aria-labelledby="lista-jogos"><div class="section-heading"><div><span class="section-bar"></span><div><span class="section-label">{len(games)} TÍTULOS</span><h2 id="lista-jogos">Jogos PS4</h2></div></div></div><div class="seo-game-grid">{catalog_links}</div></section>' + html[end:]
+                html = html[:start] + f'<section class="seo-catalog" aria-labelledby="lista-jogos"><div class="section-heading"><div><span class="section-bar"></span><div><span class="section-label">{len(games)} TÍTULOS</span><h2 id="lista-jogos">Jogos PS4</h2></div></div></div><div class="catalog-tools"><label class="catalog-search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3m2.3-5.2a7.5 7.5 0 1 1-15 0Z"/></svg><input id="catalogSearch" type="search" placeholder="Pesquisar por nome ou código CUSA..." autocomplete="off" aria-label="Pesquisar no catálogo"></label><p class="catalog-count" id="catalogSearchCount"></p></div><div class="seo-game-grid">{catalog_links}</div><div class="catalog-empty" id="catalogSearchEmpty" hidden>Nenhum jogo encontrado. Tente outro nome ou código.</div></section>' + html[end:]
         else:
             insert = '<section class="sales-cta"'
             pos = html.find(insert)
             block = f'<section class="seo-catalog" aria-labelledby="lista-jogos"><div class="section-heading"><div><span class="section-bar"></span><div><span class="section-label">{len(games)} TÍTULOS</span><h2 id="lista-jogos">Jogos PS4</h2></div></div></div><div class="seo-game-grid">{catalog_links}</div></section>'
             if pos >= 0: html = html[:pos] + block + html[pos:]
+        if 'catalog.js' not in html:
+            html = html.replace('</body>', '<script src="catalog.js" defer></script></body>')
         if 'application/ld+json' not in html:
             html = html.replace('</head>', f'<script type="application/ld+json">{item_list}</script></head>')
         template.write_text(html, encoding="utf-8")
