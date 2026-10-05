@@ -72,6 +72,7 @@ def page(game, slug, related):
     category = game.get("categoria") or "Jogos"
     dubbed = "Sim" if game.get("dublado") else "Não"
     dlc = "Sim" if game.get("dlc") else "Não"
+    edition = game.get("edicao") or ""
     url = f"{BASE}/jogos/{slug}.html"
     cover = f"../{game['capa']}"
 
@@ -84,16 +85,22 @@ def page(game, slug, related):
         "Terror": "Esta ficha reúne os dados disponíveis para quem procura este título de terror no PS4.",
         "Aventura": "Esta ficha organiza as informações disponíveis para quem procura este título de aventura no PS4.",
         "Plataforma": "Esta ficha organiza as informações disponíveis para quem procura este título de plataforma no PS4.",
+        "Sobrevivência": "Esta ficha organiza as informações disponíveis para quem procura este título de sobrevivência no PS4.",
+        "Simulação": "Esta ficha organiza as informações disponíveis para quem procura este título de simulação no PS4.",
+        "Casual": "Esta ficha organiza as informações disponíveis para quem procura este título casual no PS4.",
+        "Música": "Esta ficha organiza as informações disponíveis para quem procura este título musical no PS4.",
     }.get(category, f"Esta ficha reúne as informações disponíveis no catálogo para quem procura {title} no PS4.")
 
+    edition_text = f", edição {edition}" if edition else ""
     description = (
         f"{title} para PS4 no catálogo PKGBRASIL. "
-        f"Código {code}, versão {version}, categoria {category}, dublado {dubbed.lower()} e DLC {dlc.lower()}."
+        f"Código {code}, versão {version}, categoria {category}{edition_text}, dublado {dubbed.lower()} e DLC {dlc.lower()}."
     )
     summary = (
         f"{title} está registrado no catálogo PKGBRASIL como um título de PlayStation 4 na categoria {category}. "
         f"A identificação desta ficha usa o código {code} e a versão {version}. "
-        f"O catálogo informa dublagem: {dubbed.lower()}, e DLC: {dlc.lower()}."
+        + (f"A edição indicada no título é {edition}. " if edition else "")
+        + f"O catálogo informa dublagem: {dubbed.lower()}, e DLC: {dlc.lower()}."
     )
     identification = (
         f"Para diferenciar esta página de outras edições do mesmo jogo, use o código {code} junto da versão {version}. "
@@ -126,7 +133,7 @@ def page(game, slug, related):
 <meta name="twitter:image" content="{BASE}/{game['capa']}">
 <title>{escape(title)} | PS4 | {escape(code)} | PKGBRASIL</title>
 <link rel="icon" href="../ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" type="image/jpeg">
-<link rel="stylesheet" href="../styles.css?v=20261005-5">
+<link rel="stylesheet" href="../styles.css?v=20261005-6">
 <script type="application/ld+json">{schema(game, url)}</script>
 <script type="application/ld+json">{breadcrumb_schema(title, url)}</script>
 </head>
@@ -165,6 +172,7 @@ def page(game, slug, related):
 <li><strong>Código:</strong> {escape(code)}</li>
 <li><strong>Versão:</strong> {escape(version)}</li>
 <li><strong>Categoria:</strong> {escape(category)}</li>
+{f'<li><strong>Edição:</strong> {escape(edition)}</li>' if edition else ''}
 <li><strong>Dublado:</strong> {dubbed}</li>
 <li><strong>DLC:</strong> {dlc}</li>
 </ul>
