@@ -71,6 +71,7 @@ function telegramButton(g){
 }
 function showGame(g){
   if(!g)return;
+  window.PKGBRASIL_track?.("view_item",{item_name:g.titulo,item_id:g.codigo||String(g.id),item_category:g.categoria||"Jogos"});
   els.modalContent.innerHTML=`<div class="modal-product"><div class="modal-cover"><div class="cover-fallback">${esc(initials(g.titulo))}</div><img src="${esc(g.capa||("fotos/"+g.id+".jpg"))}" data-cover-title="${esc(g.titulo)}" alt="Capa de ${esc(g.titulo)}" decoding="async"></div><div class="modal-content-side"><span class="eyebrow">PKGBRASIL · PS4</span><h2>${esc(g.titulo)}</h2><div class="modal-chips"><span class="modal-chip">${esc(g.codigo||"Sem código")}</span><span class="modal-chip">${esc(g.categoria||"Jogos")}</span>${g.dublado?'<span class="modal-chip">Dublado PT-BR</span>':""}${g.dlc?'<span class="modal-chip">Conteúdo adicional</span>':""}</div><div class="detail-grid"><div class="detail"><span>Plataforma</span><strong>PlayStation 4</strong></div><div class="detail"><span>Versão</span><strong>${esc(g.versao||"Não informada")}</strong></div><div class="detail"><span>Código</span><strong>${esc(g.codigo||"Não informado")}</strong></div><div class="detail"><span>Categoria</span><strong>${esc(g.categoria||"Jogos")}</strong></div></div>${telegramButton(g)}<div class="modal-note">Consulte disponibilidade e condições diretamente com a PKGBRASIL no Telegram. O catálogo público não publica links externos de download.</div></div></div>`;
   hydrateCovers(els.modalContent);
   els.modal.showModal();
