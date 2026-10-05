@@ -118,7 +118,7 @@ def page(game, slug, related):
 <meta name="twitter:description" content="{escape(description)}">
 <meta name="twitter:image" content="{BASE}/{game['capa']}">
 <title>{escape(title)} | PS4 | {escape(code)} | PKGBRASIL</title>
-<link rel="stylesheet" href="../styles.css?v=20261005-1">
+<link rel="stylesheet" href="../styles.css?v=20261005-3">
 <script type="application/ld+json">{schema(game, url)}</script>
 <script type="application/ld+json">{breadcrumb_schema(title, url)}</script>
 </head>
