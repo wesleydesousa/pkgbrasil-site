@@ -83,7 +83,7 @@ function fillCategories(){
 const params=new URLSearchParams(location.search);if(params.get("q")){state.query=params.get("q");if(els.search)els.search.value=state.query}
 async function init(){
   try{
-    const r=await fetch("data/catalogo.json",{cache:"no-store"});
+    const r=await fetch("data/catalogo.json");
     const d=await r.json();
     state.games=d.jogos||[];
     state.filtered=[...state.games];
