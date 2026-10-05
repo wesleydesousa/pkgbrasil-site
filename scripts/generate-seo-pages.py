@@ -130,7 +130,7 @@ def page(game, slug, related):
 <div class="related-grid">{related_html}</div>
 </section>
 </main>
-<footer><a class="brand brand-image footer-brand" href="../"><img src="../ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL"></a><div><strong>PKGBRASIL</strong><p>Catálogo gamer com atendimento direto pelo Telegram.</p></div><a class="footer-telegram" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">@PKGBrasil</a></footer>
+<footer><a class="brand brand-image footer-brand" href="../"><img src="../ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" alt="PKGBRASIL"></a><div><strong>PKGBRASIL</strong><p>Catálogo gamer com atendimento direto pelo Telegram.</p></div><div class="page-view-counter"><span>VISUALIZAÇÕES DA PÁGINA</span><img src="https://visitor-badge.laobi.icu/badge?page_id=wesleydesousa.pkgbrasil-site-${slug}" alt="Contador de visualizações desta página" loading="lazy"></div><a class="footer-telegram" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">@PKGBrasil</a></footer>
 </body>
 </html>
 '''
