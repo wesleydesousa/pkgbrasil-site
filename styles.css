@@ -234,3 +234,12 @@ footer{display:flex;align-items:center;gap:18px;padding:26px 4%;border-top:1px s
 .related span{display:block;padding:11px;font-size:13px;line-height:1.35}
 @media (max-width:900px){.related-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:680px){.game-seo-page{padding:22px 15px 50px}.game-seo-card{grid-template-columns:1fr;padding:18px;gap:24px}.game-seo-cover{max-width:310px;margin:auto}.game-seo-specs{grid-template-columns:1fr}.related-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* SEO crawlable catalog */
+.seo-catalog{margin-top:32px}
+.seo-game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.seo-game-link{display:flex;flex-direction:column;gap:5px;padding:14px 16px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.025);color:inherit;text-decoration:none;transition:transform .2s ease,border-color .2s ease}
+.seo-game-link:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.22)}
+.seo-game-link strong{font-size:14px;line-height:1.35}.seo-game-link span{font-size:12px;opacity:.6}
+@media(max-width:900px){.seo-game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.seo-game-grid{grid-template-columns:1fr}}
