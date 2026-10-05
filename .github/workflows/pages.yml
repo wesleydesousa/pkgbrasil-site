@@ -36,6 +36,8 @@ jobs:
             rm -f "ativos/fotos_github_compactado.zip"
           fi
           test -d fotos
+      - name: Validate catalog
+        run: python3 scripts/validate-catalog.py
       - name: Generate SEO game pages
         run: python3 scripts/generate-seo-pages.py
 
