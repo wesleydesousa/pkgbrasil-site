@@ -44,6 +44,19 @@ def schema(game, url):
     }
     if game.get("codigo"):
         data["identifier"] = game["codigo"]
+    data["mainEntityOfPage"] = {"@type": "WebPage", "@id": url}
+    return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+
+def breadcrumb_schema(title, url):
+    data = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{BASE}/"},
+            {"@type": "ListItem", "position": 2, "name": "Catálogo", "item": f"{BASE}/jogos.html"},
+            {"@type": "ListItem", "position": 3, "name": title, "item": url}
+        ]
+    }
     return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
 def page(game, slug, related):
@@ -83,6 +96,7 @@ def page(game, slug, related):
 <title>{escape(title)} | Jogo PS4 | PKGBRASIL</title>
 <link rel="stylesheet" href="../styles.css?v=20261005-1">
 <script type="application/ld+json">{schema(game, url)}</script>
+<script type="application/ld+json">{breadcrumb_schema(title, url)}</script>
 </head>
 <body>
 <header class="topbar">
