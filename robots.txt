@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /admin.html
 Sitemap: https://wesleydesousa.github.io/pkgbrasil-site/sitemap.xml
