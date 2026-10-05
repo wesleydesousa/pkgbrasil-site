@@ -109,6 +109,7 @@ def page(game, slug, related):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#070707">
+<meta name="color-scheme" content="dark">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="description" content="{escape(description)}">
 <link rel="canonical" href="{url}">
@@ -124,7 +125,8 @@ def page(game, slug, related):
 <meta name="twitter:description" content="{escape(description)}">
 <meta name="twitter:image" content="{BASE}/{game['capa']}">
 <title>{escape(title)} | PS4 | {escape(code)} | PKGBRASIL</title>
-<link rel="stylesheet" href="../styles.css?v=20261005-4">
+<link rel="icon" href="../ativos/WhatsApp%20Image%202026-09-29%20at%2009.11.02.jpeg" type="image/jpeg">
+<link rel="stylesheet" href="../styles.css?v=20261005-5">
 <script type="application/ld+json">{schema(game, url)}</script>
 <script type="application/ld+json">{breadcrumb_schema(title, url)}</script>
 </head>
@@ -135,6 +137,12 @@ def page(game, slug, related):
 <a href="../">INÍCIO</a><a class="active" href="../jogos.html">CATÁLOGO</a><a href="../como-usar.html">COMO COMPRAR</a><a href="../contato.html">TELEGRAM</a>
 </nav>
 <div class="header-actions"><a class="account-btn primary" href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer">FALAR NO TELEGRAM</a></div>
+<details class="mobile-menu">
+<summary aria-label="Abrir menu">MENU</summary>
+<nav class="mobile-menu-panel" aria-label="Menu mobile">
+<a href="../">INÍCIO</a><a href="../jogos.html">CATÁLOGO</a><a href="../como-usar.html">COMO COMPRAR</a><a href="../contato.html">TELEGRAM</a>
+</nav>
+</details>
 </header>
 <main class="game-seo-page">
 <nav class="breadcrumbs" aria-label="Você está aqui"><a href="../">Início</a><span>›</span><a href="../jogos.html">Catálogo</a><span>›</span><span>{escape(title)}</span></nav>
