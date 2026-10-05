@@ -68,7 +68,31 @@ def page(game, slug, related):
     dlc = "Sim" if game.get("dlc") else "Não"
     url = f"{BASE}/jogos/{slug}.html"
     cover = f"../{game['capa']}"
-    description = f"{title} para PS4 no catálogo PKGBRASIL. Confira código {code}, versão {version}, categoria {category} e informações disponíveis."
+
+    category_copy = {
+        "Ação e Aventura": "Esta ficha organiza as principais informações de catálogo para quem procura este título de ação e aventura no PS4.",
+        "Luta": "Esta ficha reúne os dados de catálogo para quem procura este título de luta no PS4 e precisa identificar corretamente a edição.",
+        "RPG": "Esta ficha reúne os dados de catálogo para quem procura este RPG no PS4 e precisa identificar corretamente a edição.",
+        "Esportes": "Esta ficha organiza os dados de catálogo para quem procura este título de esporte no PS4.",
+        "Corrida": "Esta ficha organiza os dados de catálogo para quem procura este título de corrida no PS4.",
+        "Terror": "Esta ficha reúne os dados disponíveis para quem procura este título de terror no PS4.",
+        "Aventura": "Esta ficha organiza as informações disponíveis para quem procura este título de aventura no PS4.",
+        "Plataforma": "Esta ficha organiza as informações disponíveis para quem procura este título de plataforma no PS4.",
+    }.get(category, f"Esta ficha reúne as informações disponíveis no catálogo para quem procura {title} no PS4.")
+
+    description = (
+        f"{title} para PS4 no catálogo PKGBRASIL. "
+        f"Código {code}, versão {version}, categoria {category}, dublado {dubbed.lower()} e DLC {dlc.lower()}."
+    )
+    summary = (
+        f"{title} está registrado no catálogo PKGBRASIL como um título de PlayStation 4 na categoria {category}. "
+        f"A identificação desta ficha usa o código {code} e a versão {version}. "
+        f"O catálogo informa dublagem: {dubbed.lower()}, e DLC: {dlc.lower()}."
+    )
+    identification = (
+        f"Para diferenciar esta página de outras edições do mesmo jogo, use o código {code} junto da versão {version}. "
+        f"Esses dados são os identificadores exibidos pelo catálogo PKGBRASIL para esta ficha."
+    )
     related_html = "".join(
         f'<a class="related" href="{r["href"]}"><img src="../{r["capa"]}" alt="{escape(r["titulo"])}" loading="lazy"><span>{escape(r["titulo"])}</span></a>'
         for r in related
@@ -85,15 +109,15 @@ def page(game, slug, related):
 <meta property="og:type" content="article">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="PKGBRASIL">
-<meta property="og:title" content="{escape(title)} | PKGBRASIL">
+<meta property="og:title" content="{escape(title)} | PS4 | {escape(code)} | PKGBRASIL">
 <meta property="og:description" content="{escape(description)}">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="{BASE}/{game['capa']}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{escape(title)} | PKGBRASIL">
+<meta name="twitter:title" content="{escape(title)} | PS4 | {escape(code)} | PKGBRASIL">
 <meta name="twitter:description" content="{escape(description)}">
 <meta name="twitter:image" content="{BASE}/{game['capa']}">
-<title>{escape(title)} | Jogo PS4 | PKGBRASIL</title>
+<title>{escape(title)} | PS4 | {escape(code)} | PKGBRASIL</title>
 <link rel="stylesheet" href="../styles.css?v=20261005-1">
 <script type="application/ld+json">{schema(game, url)}</script>
 <script type="application/ld+json">{breadcrumb_schema(title, url)}</script>
@@ -113,7 +137,28 @@ def page(game, slug, related):
 <div class="game-seo-info">
 <span class="section-label">CATÁLOGO PKGBRASIL • PS4</span>
 <h1>{escape(title)}</h1>
-<p class="game-seo-intro">Confira as informações disponíveis deste jogo no catálogo PKGBRASIL e continue o atendimento diretamente pelo Telegram.</p>
+<p class="game-seo-intro">{escape(category_copy)} {escape(summary)}</p>
+<section class="game-seo-description" aria-labelledby="sobre-ficha">
+<h2 id="sobre-ficha">Sobre esta ficha</h2>
+<p>{escape(summary)}</p>
+<p>{escape(identification)}</p>
+</section>
+<section class="game-seo-facts" aria-labelledby="dados-edicao">
+<h2 id="dados-edicao">Dados desta edição</h2>
+<ul>
+<li><strong>Jogo:</strong> {escape(title)}</li>
+<li><strong>Plataforma:</strong> PlayStation 4</li>
+<li><strong>Código:</strong> {escape(code)}</li>
+<li><strong>Versão:</strong> {escape(version)}</li>
+<li><strong>Categoria:</strong> {escape(category)}</li>
+<li><strong>Dublado:</strong> {dubbed}</li>
+<li><strong>DLC:</strong> {dlc}</li>
+</ul>
+</section>
+<section class="game-seo-help" aria-labelledby="como-identificar">
+<h2 id="como-identificar">Como identificar a página correta</h2>
+<p>Quando houver mais de uma ficha com o mesmo nome, compare o código e a versão antes de escolher a edição. Nesta página, o identificador de referência é <strong>{escape(code)}</strong>.</p>
+</section>
 <div class="game-seo-specs">
 <div><span>CÓDIGO</span><strong>{escape(code)}</strong></div>
 <div><span>VERSÃO</span><strong>{escape(version)}</strong></div>
