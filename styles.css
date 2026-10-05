@@ -211,3 +211,26 @@ footer{display:flex;align-items:center;gap:18px;padding:26px 4%;border-top:1px s
   .hero-banner-note{left:8px;right:8px;bottom:8px;padding:8px}
   .hero-banner-note span{display:none}
 }
+
+
+/* SEO individual game pages */
+.game-seo-page{max-width:1180px;margin:0 auto;padding:34px 24px 70px}
+.breadcrumbs{display:flex;gap:9px;align-items:center;flex-wrap:wrap;color:#888;font-size:13px;margin:0 0 24px}
+.breadcrumbs a{color:#ccc;text-decoration:none}
+.breadcrumbs a:hover{color:#fff}
+.game-seo-card{display:grid;grid-template-columns:minmax(240px,380px) 1fr;gap:38px;align-items:start;background:#111;border:1px solid #242424;border-radius:22px;padding:28px}
+.game-seo-cover img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:16px;background:#191919}
+.game-seo-info h1{font-size:clamp(32px,5vw,58px);line-height:1.02;margin:10px 0 18px}
+.game-seo-intro{color:#aaa;font-size:17px;line-height:1.7;max-width:720px}
+.game-seo-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:28px 0}
+.game-seo-specs div{background:#181818;border:1px solid #262626;border-radius:12px;padding:15px}
+.game-seo-specs span{display:block;color:#777;font-size:11px;font-weight:700;letter-spacing:.08em;margin-bottom:6px}
+.game-seo-specs strong{font-size:15px;color:#eee}
+.game-seo-actions{display:flex;gap:12px;flex-wrap:wrap}
+.game-seo-related{margin-top:52px}
+.related-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.related{display:block;color:#fff;text-decoration:none;background:#111;border:1px solid #222;border-radius:14px;overflow:hidden}
+.related img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;background:#191919}
+.related span{display:block;padding:11px;font-size:13px;line-height:1.35}
+@media (max-width:900px){.related-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:680px){.game-seo-page{padding:22px 15px 50px}.game-seo-card{grid-template-columns:1fr;padding:18px;gap:24px}.game-seo-cover{max-width:310px;margin:auto}.game-seo-specs{grid-template-columns:1fr}.related-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
