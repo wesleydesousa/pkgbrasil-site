@@ -400,3 +400,12 @@ footer{display:flex;align-items:center;gap:18px;padding:26px 4%;border-top:1px s
 .catalog-empty{padding:28px 18px;text-align:center;border:1px dashed #2b3038;border-radius:12px;color:#858e9c;background:rgba(255,255,255,.018);font-size:12px}
 @media(max-width:980px){.mobile-menu{display:block}}
 @media(max-width:680px){.catalog-tools{align-items:stretch}.catalog-search{flex-basis:100%}.catalog-count{width:100%}}
+
+
+/* Contact page layout */
+.sales-cta-head{display:flex;align-items:center;justify-content:space-between;gap:26px;width:100%}
+.sales-cta-head>div{min-width:0}
+.sales-cta-head .telegram-wide{flex:0 0 220px;grid-column:auto;grid-row:auto}
+.store-proof{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.store-proof span{padding:8px 10px;border:1px solid #202630;border-radius:8px;background:#080a0d;color:#bfc5cf;font-size:9px;font-weight:800}
+@media(max-width:680px){.sales-cta-head{flex-direction:column;align-items:stretch}.sales-cta-head .telegram-wide{flex-basis:auto;width:100%;min-width:0}.store-proof{display:grid;grid-template-columns:1fr}.store-proof span{text-align:center}}
