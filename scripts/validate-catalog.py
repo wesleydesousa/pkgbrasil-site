@@ -41,6 +41,8 @@ def main():
 
         if not str(game.get("codigo", "")).strip():
             warnings.append(f"id={gid}: código CUSA ausente")
+        if game.get("categoria") == "Jogos":
+            warnings.append(f'id={gid}: categoria genérica Jogos')
         if not str(game.get("versao", "")).strip():
             warnings.append(f"id={gid}: versão ausente")
 
