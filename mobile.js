@@ -7,11 +7,11 @@
 
   const path = location.pathname;
   const home = path.endsWith("/index.html") || path.endsWith("/");
-  const catalog = path.endsWith("/jogos.html");
-  const prefix = /\/jogos\/[^/]+\.html$/.test(path) ? "../" : "";
+  const game = /\/jogos\/[^/]+\.html$/.test(path);
+  const prefix = game ? "../" : "";
 
   bar.innerHTML = [
-    '<a href="' + prefix + (home ? "#inicio" : "") + '" data-mobile-home><span>⌂</span>Início</a>',
+    '<a href="' + (home ? "#inicio" : prefix + "index.html") + '" data-mobile-home><span>⌂</span>Início</a>',
     '<a href="' + prefix + 'jogos.html" data-mobile-catalog><span>▦</span>Catálogo</a>',
     '<a href="https://t.me/PKGBrasil" target="_blank" rel="noopener noreferrer" data-mobile-telegram><span>✈</span>Telegram</a>'
   ].join("");
