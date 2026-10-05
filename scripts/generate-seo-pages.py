@@ -142,6 +142,38 @@ def main():
                 break
         (OUT / f"{slugs[str(game['id'])]}.html").write_text(page(game, slugs[str(game["id"])], related), encoding="utf-8")
 
+    # Rebuild the public catalog index with crawlable HTML links to every game page.
+    catalog_links = "".join(
+        f'<a class="seo-game-link" href="jogos/{slugs[str(g["id"])]}.html"><strong>{escape(g["titulo"])}</strong><span>PS4{(" • " + escape(g.get("codigo"))) if g.get("codigo") else ""}</span></a>'
+        for g in games
+    )
+    item_list = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Catálogo PKGBRASIL - Jogos PS4",
+        "numberOfItems": len(games),
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": g["titulo"], "url": f"{BASE}/jogos/{slugs[str(g['id'])]}.html"}
+            for i, g in enumerate(games)
+        ]
+    }, ensure_ascii=False, separators=(",", ":"))
+    template = ROOT / "jogos.html"
+    if template.exists():
+        html = template.read_text(encoding="utf-8")
+        marker = '<section class="seo-catalog"'
+        start = html.find(marker)
+        if start >= 0:
+            end = html.find("</section>", start) + len("</section>")
+            if end > start:
+                html = html[:start] + f'<section class="seo-catalog" aria-labelledby="lista-jogos"><div class="section-heading"><div><span class="section-bar"></span><div><span class="section-label">{len(games)} TÍTULOS</span><h2 id="lista-jogos">Jogos PS4</h2></div></div></div><div class="seo-game-grid">{catalog_links}</div></section>' + html[end:]
+        else:
+            insert = '<section class="sales-cta"'
+            pos = html.find(insert)
+            block = f'<section class="seo-catalog" aria-labelledby="lista-jogos"><div class="section-heading"><div><span class="section-bar"></span><div><span class="section-label">{len(games)} TÍTULOS</span><h2 id="lista-jogos">Jogos PS4</h2></div></div></div><div class="seo-game-grid">{catalog_links}</div></section>'
+            if pos >= 0: html = html[:pos] + block + html[pos:]
+        if 'application/ld+json' not in html:
+            html = html.replace('</head>', f'<script type="application/ld+json">{item_list}</script></head>')
+        template.write_text(html, encoding="utf-8")
     static = ["", "jogos.html", "como-usar.html", "contato.html"]
     urls = [f"{BASE}/{p}" for p in static]
     urls += [f"{BASE}/jogos/{slugs[str(g['id'])]}.html" for g in games]
