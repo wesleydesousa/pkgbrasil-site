@@ -2,6 +2,7 @@
   const input = document.querySelector("#catalogSearch");
   const links = [...document.querySelectorAll(".seo-game-link")];
   const count = document.querySelector("#catalogSearchCount");
+  const category = document.querySelector("#catalogCategoryFilter");
   const empty = document.querySelector("#catalogSearchEmpty");
 
   if (!input || !links.length) return;
@@ -18,7 +19,8 @@
 
     links.forEach((link) => {
       const haystack = normalize(link.dataset.search || link.textContent);
-      const match = !query || haystack.includes(query);
+      const categoryMatch = !category || !category.value || link.dataset.category === category.value;
+      const match = categoryMatch && (!query || haystack.includes(query));
       link.classList.toggle("is-hidden", !match);
       if (match) visible += 1;
     });
@@ -33,5 +35,6 @@
 
   input.addEventListener("input", update);
   input.addEventListener("search", update);
+  category?.addEventListener("change", update);
   update();
 })();
