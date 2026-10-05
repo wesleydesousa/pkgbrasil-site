@@ -255,8 +255,7 @@ def main():
             if pos >= 0: html = html[:pos] + block + html[pos:]
         if 'catalog.js' not in html:
             html = html.replace('</body>', '<script src="catalog.js" defer></script></body>')
-        if 'application/ld+json' not in html:
-            html = html.replace('</head>', f'<script type="application/ld+json">{item_list}</script></head>')
+        html = re.sub(r'<script type="application/ld\\+json">.*?</script>', f'<script type="application/ld+json">{item_list}</script>', html, count=1, flags=re.S)
         template.write_text(html, encoding="utf-8")
     static = ["", "jogos.html", "como-usar.html", "contato.html"]
     urls = [f"{BASE}/{p}" for p in static]
